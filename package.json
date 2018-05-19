@@ -4,9 +4,9 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
-    "test": "node scripts/test.js",
-    "build": "node scripts/build.js",
-    "dev": "node scripts/dev.js"
+    "test": "",
+    "start": "node app",
+    "dev": "nodemon --watch app"
   },
   "repository": {
     "type": "git",
@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "nodemon": "^1.17.4",
     "webpack": "^4.8.3"
   },
   "dependencies": {
