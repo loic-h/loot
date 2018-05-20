@@ -11,3 +11,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Loot App listening on ${PORT}`);
 })
+
+module.exports = app;

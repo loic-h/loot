@@ -4,9 +4,9 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
-    "test": "",
-    "start": "node app",
-    "dev": "nodemon --watch app"
+    "test": "mocha --exit",
+    "start": "SET NODE_ENV=prod && node app",
+    "dev": "SET NODE_ENV=dev && nodemon --watch app"
   },
   "repository": {
     "type": "git",
@@ -15,6 +15,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.17.4",
     "webpack": "^4.8.3"
   },
