@@ -4,9 +4,9 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
-    "test": "mocha --exit",
-    "start": "SET NODE_ENV=prod && node app",
-    "dev": "SET NODE_ENV=dev && nodemon --watch app"
+    "test": "NODE_ENV=test && mocha --exit",
+    "start": "NODE_ENV=production && node app",
+    "dev": "NODE_ENV=development && nodemon --watch app --watch config"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "webpack": "^4.8.3"
   },
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "mongoose": "^5.1.1"
   }
 }

@@ -1,15 +1,14 @@
-const express = require("express");
+const express = require('express');
+const config = require('../config');
 
 const app = express();
 
-const PORT = 8080;
-
-app.get("/", (req, res) => {
-  res.send("Loot app");
+app.get('/', (req, res) => {
+  res.send('Loot app');
 });
 
-app.listen(PORT, () => {
-  console.log(`Loot App listening on ${PORT}`);
+app.listen(config.PORT, () => {
+  console.log(`Loot App listening on ${config.PORT}`);
 })
 
 module.exports = app;
