@@ -2,6 +2,7 @@ const chai = require('chai');
 const mongoose = require('mongoose');
 const config = require('../../config');
 const Loot = require('../../app/models/loot');
+const lootFixture = require('../fixtures/loots.json');
 
 const expect = chai.expect;
 
@@ -40,12 +41,9 @@ describe('Model Loot', () => {
     });
 
     it ('should save a loot', done => {
-      const loot = new Loot({
-        content: 'Lorem ipsum'
-      });
-      loot.save((err, res) => {
-        expect(res._id).to.exist;
-        expect(res.content).to.equal('Lorem ipsum');
+      Loot.insertMany(lootFixture, (err, res) => {
+        expect(err).not.to.exist;
+        expect(res.length).to.equal(2);
         done();
       });
     });
