@@ -1,8 +1,8 @@
 const chai = require('chai');
 const mongoose = require('mongoose');
-const config = require('../../config');
-const Loot = require('../../app/models/loot');
-const lootFixture = require('../fixtures/loots.json');
+const config = require('../../../config');
+const Loot = require('../../../app/models/loot');
+const lootFixture = require('../../fixtures/loots.json');
 
 const expect = chai.expect;
 
