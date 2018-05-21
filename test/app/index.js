@@ -14,5 +14,5 @@ describe('/GET root', () => {
         res.should.have.status(200);
         done();
       });
-  })
+  });
 });
