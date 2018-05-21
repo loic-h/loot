@@ -34,8 +34,9 @@ describe('Model Loot', () => {
     });
 
     after(done => {
-      mongoose.connection.db.dropDatabase();
-      mongoose.disconnect(done);
+      mongoose.connection.db.dropDatabase(() => {
+        mongoose.disconnect(done);
+      });
     });
 
     it ('should save a loot', done => {
