@@ -54,4 +54,38 @@ describe('Controller loot', () => {
         });
     });
   });
+
+  it ('should create a loot', done => {
+    router.post('/', controller.create);
+    chai.request(app)
+      .post('/')
+      .end((err, res) => {
+        expect(res.text).to.equal('NOT IMPLEMENTED: Loot create');
+        done();
+      });
+  });
+
+  it ('should delete a loot', done => {
+    router.delete('/:id', controller.delete);
+    Loot.findOne({}, (err, item) => {
+      chai.request(app)
+        .delete(`/${item._id}`)
+        .end((err, res) => {
+          expect(res.text).to.equal('NOT IMPLEMENTED: Loot delete');
+          done();
+        });
+    });
+  });
+
+  it ('should update a loot', done => {
+    router.patch('/:id', controller.update);
+    Loot.findOne({}, (err, item) => {
+      chai.request(app)
+        .patch(`/${item._id}`)
+        .end((err, res) => {
+          expect(res.text).to.equal('NOT IMPLEMENTED: Loot update');
+          done();
+        });
+    });
+  });
 });
