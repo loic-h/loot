@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const log4js = require('log4js');
+const bodyParser = require('body-parser')
 const config = require('../config');
 
 const routeLoot = require('./routes/loot');
@@ -8,6 +9,7 @@ const routeLoot = require('./routes/loot');
 const app = express();
 const logger = log4js.getLogger('app');
 
+app.use(bodyParser.json());
 app.use('/loots', routeLoot);
 
 app.get('/', (req, res) => {
