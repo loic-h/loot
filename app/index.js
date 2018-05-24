@@ -4,13 +4,13 @@ const log4js = require('log4js');
 const bodyParser = require('body-parser')
 const config = require('../config');
 
-const routeLoot = require('./routes/loot');
+const routeApi = require('./routes/api');
 
 const app = express();
 const logger = log4js.getLogger('app');
 
 app.use(bodyParser.json());
-app.use('/loots', routeLoot);
+app.use('/api', routeApi);
 
 app.get('/', (req, res) => {
   res.redirect('/loots');

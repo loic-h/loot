@@ -1,5 +1,6 @@
 require('./models/loot');
 require('./controllers/loot');
+require('./routes/api/loot');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
