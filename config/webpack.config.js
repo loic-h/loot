@@ -4,7 +4,7 @@ const context = path.resolve(__dirname, '..');
 
 module.exports = {
   context,
-  entry: `${context}/src/js/app.js`,
+  entry: `${context}/src/js/index.js`,
   output: {
     path: `${context}/static`,
     filename: 'app.js'
@@ -17,7 +17,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env'],
+            presets: ['env', 'react'],
             plugins: ['transform-object-rest-spread']
           }
         }
