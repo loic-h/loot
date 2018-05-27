@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const lootSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
   content: {
     type: String,
     required: true
@@ -11,4 +11,4 @@ const lootSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('loot', lootSchema);
+module.exports = mongoose.model('post', postSchema);

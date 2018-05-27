@@ -2,13 +2,13 @@ const express = require('express');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
-const router = require('../../../../app/routes/api/loot');
+const router = require('../../../../app/routes/api/post');
 
 chai.use(chaiHttp);
 
 const expect = chai.expect;
 
-describe('Api loot routes', () => {
+describe('Api post routes', () => {
 
   const controller = {
     list: (req, res) => res.send('list'),
@@ -19,64 +19,64 @@ describe('Api loot routes', () => {
   };
 
   const app = express();
-  app.use('/loots', router(controller));
+  app.use('/posts', router(controller));
 
-  it('GET /loots should serve controller list', () => {
+  it('GET /posts should serve controller list', () => {
     chai.request(app)
-      .get('/loots')
+      .get('/posts')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.text).to.equal('list');
       });
   });
 
-  it('GET /loots/:id should serve controller detail', () => {
+  it('GET /posts/:id should serve controller detail', () => {
     chai.request(app)
-      .get('/loots/foo')
+      .get('/posts/foo')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.text).to.equal('detail');
       });
   });
 
-  it('POST /loots should serve controller create', () => {
+  it('POST /posts should serve controller create', () => {
     chai.request(app)
-      .post('/loots')
+      .post('/posts')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.text).to.equal('create');
       });
   });
 
-  it('DELETE /loots/:id should serve controller delete', () => {
+  it('DELETE /posts/:id should serve controller delete', () => {
     chai.request(app)
-      .delete('/loots/foo')
+      .delete('/posts/foo')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.text).to.equal('delete');
       });
   });
 
-  it('DELETE /loots should not be served', () => {
+  it('DELETE /posts should not be served', () => {
     chai.request(app)
-      .delete('/loots')
+      .delete('/posts')
       .end((err, res) => {
         expect(res).to.have.status(404);
       });
   });
 
-  it('PATCH /loots/:id should serve controller update', () => {
+  it('PATCH /posts/:id should serve controller update', () => {
     chai.request(app)
-      .patch('/loots/foo')
+      .patch('/posts/foo')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.text).to.equal('update');
       });
   });
 
-  it('PATCH /loots should not be served', () => {
+  it('PATCH /posts should not be served', () => {
     chai.request(app)
-      .patch('/loots')
+      .patch('/posts')
       .end((err, res) => {
         expect(res).to.have.status(404);
       });

@@ -1,6 +1,6 @@
-require('./models/loot');
-require('./controllers/loot');
-require('./routes/api/loot');
+require('./models/post');
+require('./controllers/post');
+require('./routes/api/post');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -11,12 +11,12 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe('/GET root', () => {
-  it('should redirect to /loots', done => {
+  it('should redirect to /posts', done => {
     chai.request(app)
       .get('/')
       .redirects(0)
       .end((err, res) => {
-        expect(res).to.redirectTo('/loots');
+        expect(res).to.redirectTo('/posts');
         done();
       });
   });

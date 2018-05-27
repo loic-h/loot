@@ -1,28 +1,28 @@
 const chai = require('chai');
 const mongoose = require('mongoose');
 const config = require('../../../config');
-const Loot = require('../../../app/models/loot');
-const lootFixture = require('../../fixtures/loots.json');
+const Post = require('../../../app/models/post');
+const postFixture = require('../../fixtures/posts.json');
 
 const expect = chai.expect;
 
-describe('Model Loot', () => {
+describe('Model Post', () => {
 
   describe('unit testing', () => {
 
     it ('should be invalid if content is empty', done => {
-      const loot = new Loot();
-      loot.validate(err => {
+      const post = new Post();
+      post.validate(err => {
         expect(err).to.exist;
         done();
       })
     });
 
     it ('should save content', done => {
-      const loot = new Loot({
+      const post = new Post({
         content: 'Lorem ipsum'
       });
-      loot.validate(err => {
+      post.validate(err => {
         expect(err).not.to.exist;
         done();
       })
@@ -40,8 +40,8 @@ describe('Model Loot', () => {
       });
     });
 
-    it ('should save a loot', done => {
-      Loot.insertMany(lootFixture, (err, res) => {
+    it ('should save a post', done => {
+      Post.insertMany(postFixture, (err, res) => {
         expect(err).not.to.exist;
         expect(res.length).to.equal(2);
         done();

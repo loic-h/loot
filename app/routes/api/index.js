@@ -1,8 +1,8 @@
 const express = require('express');
-const routerLoot = require('./loot');
-const controllerLoot = require('../../controllers/loot');
+const routerPost = require('./post');
+const controllerPost = require('../../controllers/post');
 
 const router = express.Router();
-router.use('/loots', routerLoot(controllerLoot));
+router.use('/posts', routerPost(controllerPost));
 
 module.exports = router;

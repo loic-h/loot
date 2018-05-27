@@ -1,10 +1,10 @@
 const log4js = require('log4js');
-const Loot = require('../models/loot');
+const Post = require('../models/post');
 
-const logger = log4js.getLogger('controllers:loot');
+const logger = log4js.getLogger('controllers:post');
 
 exports.list = (req, res) => {
-  Loot.find({}, (err, items) => {
+  Post.find({}, (err, items) => {
     if (err) {
       if (err.name === 'CastError') {
         res.sendStatus(404);
@@ -19,7 +19,7 @@ exports.list = (req, res) => {
 };
 
 exports.detail = (req, res) => {
-  Loot.findOne({ _id: req.params.id }, (err, item) => {
+  Post.findOne({ _id: req.params.id }, (err, item) => {
     if (err) {
       if (err.name === 'CastError') {
         res.sendStatus(404);
@@ -34,7 +34,7 @@ exports.detail = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  Loot.create(req.body, (err, item) => {
+  Post.create(req.body, (err, item) => {
     if (err) {
       if (err.name === 'ValidationError') {
         res.sendStatus(304);
@@ -49,7 +49,7 @@ exports.create = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Loot.deleteOne({ _id: req.params.id }, err => {
+  Post.deleteOne({ _id: req.params.id }, err => {
     if (err) {
       if (err.name === 'CastError') {
         res.sendStatus(404);
@@ -64,7 +64,7 @@ exports.delete = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  Loot.updateOne({ _id: req.params.id }, req.body, (err, response) => {
+  Post.updateOne({ _id: req.params.id }, req.body, (err, response) => {
     if (err) {
       if (err.name === 'CastError') {
         res.sendStatus(404);
