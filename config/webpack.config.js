@@ -53,4 +53,5 @@ module.exports = {
       filename: 'app.css'
     })
   ],
+  devtool: 'source-map'
 };

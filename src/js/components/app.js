@@ -1,10 +1,14 @@
 import React from 'react';
+import Thread from '../containers/thread';
 import 'scss/app';
 
 class App extends React.Component {
   render() {
     return (
-      <h1>Loot</h1>
+      <div className="app">
+        <h1>Loot</h1>
+        <Thread />
+      </div>
     );
   }
 };
