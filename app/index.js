@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const log4js = require('log4js');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const config = require('../config');
 
 const routeApi = require('./routes/api');
@@ -30,7 +30,7 @@ mongoose.connection.once('open', () => logger.debug(`DB connected on ${config.MO
 
 app.listen(config.PORT, () => {
   logger.debug(`Loot App listening on ${config.PORT}`);
-})
+});
 
 process.on('SIGINT', () => {
   logger.debug('Process exiting. Good Bye!');
