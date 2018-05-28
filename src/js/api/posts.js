@@ -1,7 +1,8 @@
 export default {
-  list: () => {
+  list: (base = '') => {
     return new Promise((resolve, reject) => {
-      fetch('/api/posts')
+      fetch(`${base}/api/posts`)
+        .catch(err => reject(err))
         .then(res => res.json())
         .then(json => resolve(json));
     });

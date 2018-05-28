@@ -4,7 +4,7 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
-    "test": "export NODE_ENV=test && mocha --exit --require babel-polyfill --require babel-register",
+    "test": "export NODE_ENV=test && mocha --exit --require babel-polyfill --require babel-register --require isomorphic-fetch",
     "start": "export NODE_ENV=production && npm run clean && npm run front:build && npm run app:start",
     "app:start": "node app",
     "front:build": "mkdir -p static && webpack --mode production --config config/webpack.config.js",
@@ -30,6 +30,7 @@
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "css-loader": "^0.28.11",
+    "isomorphic-fetch": "^2.2.1",
     "mini-css-extract-plugin": "^0.4.0",
     "mocha": "^5.2.0",
     "node-sass": "^4.9.0",
