@@ -1,6 +1,11 @@
 const expect = require('chai').expect;
-const api = require('../../utils/api');
+const fetchMock = require('fetch-mock');
+const thunk = require('redux-thunk').default;
+const configureMockStore = require('redux-mock-store');
 const posts = require('../../fixtures/posts');
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 const {
   FETCH_POSTS_LOAD,
@@ -13,6 +18,10 @@ const {
 } = require('../../../src/js/actions/posts');
 
 describe('for posts', () => {
+  afterEach(() => {
+    fetchMock.reset()
+    fetchMock.restore()
+  });
 
   describe('should define type', () => {
 
@@ -46,28 +55,25 @@ describe('for posts', () => {
     expect(action.type).to.equal(FETCH_POSTS_ERROR);
   });
 
-  describe('for loading fetch', done => {
+  describe('for fetching', done => {
 
-    it('should load successful posts', done => {
-      const result = fetchPosts(api, posts);
-      const actions = [];
+    it.only('should successfully load posts', done => {
+      fetchMock.getOnce('/api/posts', {
+        body: posts,
+        headers: { 'content-type': 'application/json'}
+      });
+
+      const store = mockStore();
+
       const expectedActions = [
         { type: FETCH_POSTS_LOAD },
         { type: FETCH_POSTS_SUCCESS, posts }
       ];
-      const dispatch = (action) => actions.push(action);
-      result(dispatch)
-        .then(payload => {
-          expect(actions).to.deep.equal(expectedActions);
-          expect(payload).to.equal(posts);
-          done();
-        });
-    });
 
-    it('should fail', done => {
-      const result = fetchPosts(api, null)
-      result(() => {}).catch(err => {
-          expect(err).to.equal('error');
+      store.dispatch(fetchPosts())
+        .then(payload => {
+          expect(store.getActions()).to.deep.equal(expectedActions);
+          expect(payload).to.deep.equal(posts);
           done();
         });
     });
