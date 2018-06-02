@@ -1,0 +1,3 @@
+describe('Actions', () => {
+  require('./posts');
+});

@@ -17,13 +17,14 @@ export const errorPosts = () => ({
   type: FETCH_POSTS_ERROR
 });
 
-export const fetchPosts = () => dispatch => {
+// Parameters _api and testPosts are for test purpose
+export const fetchPosts = (_api = api, testPosts) => dispatch => {
   return new Promise((resolve, reject) => {
     dispatch(loadPosts());
-    api.posts.list()
-      .catch(() => {
+    _api.posts.list(testPosts)
+      .catch(err => {
         dispatch(errorPosts());
-        reject();
+        reject(err);
       })
       .then(json => {
         dispatch(successPosts(json));

@@ -1,3 +1,4 @@
-describe('/api', () => {
-  require('./api/post');
-})
+describe('Frontend', () => {
+  require('./api');
+  require('./actions');
+});
