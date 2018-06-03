@@ -57,7 +57,7 @@ describe('for posts', () => {
 
   describe('for fetching', done => {
 
-    it.only('should successfully load posts', done => {
+    it('should successfully load posts', done => {
       fetchMock.getOnce('/api/posts', {
         body: posts,
         headers: { 'content-type': 'application/json'}
@@ -74,6 +74,18 @@ describe('for posts', () => {
         .then(payload => {
           expect(store.getActions()).to.deep.equal(expectedActions);
           expect(payload).to.deep.equal(posts);
+          done();
+        });
+    });
+
+    it('should fail', done => {
+      fetchMock.get('/api/posts', { throws: 'error' });
+
+      const store = mockStore();
+
+      store.dispatch(fetchPosts())
+        .catch(err => {
+          expect(err).to.equal(err);
           done();
         });
     });
