@@ -21,7 +21,7 @@ export const fetchThread = () => dispatch => {
   return new Promise((resolve, reject) => {
     dispatch(loadThread());
     dispatch(fetchPosts())
-      .catch(() => {
+      .catch(err => {
         dispatch(errorThread());
         reject(err);
       })

@@ -2,7 +2,7 @@ const chai = require('chai');
 const mongoose = require('mongoose');
 const config = require('../../../config');
 const Post = require('../../../app/models/post');
-const postFixture = require('../../fixtures/posts.json');
+const posts = require('../../fixtures/posts-without-ids');
 
 const expect = chai.expect;
 
@@ -41,7 +41,7 @@ describe('Model Post', () => {
     });
 
     it ('should save a post', done => {
-      Post.insertMany(postFixture, (err, res) => {
+      Post.insertMany(posts, (err, res) => {
         expect(err).not.to.exist;
         expect(res.length).to.equal(2);
         done();

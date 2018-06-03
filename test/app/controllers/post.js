@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 const Post = require('../../../app/models/post');
 const controller = require('../../../app/controllers/post');
-const postFixture = require('../../fixtures/posts.json');
+const posts = require('../../fixtures/posts-without-ids');
 const db = require('../../utils/db');
 
 const expect = chai.expect;
@@ -16,7 +16,7 @@ describe('Controller post', () => {
 
   before(async () => {
     await db.connect();
-    await Post.insertMany(postFixture);
+    await Post.insertMany(posts);
   });
 
   after(async () => {
@@ -52,13 +52,13 @@ describe('Controller post', () => {
   });
 
   it ('should detail a post', done => {
-    Post.findOne({ content: postFixture[0].content }, (err, item) => {
+    Post.findOne({ content: posts[0].content }, (err, item) => {
       chai.request(app)
         .get(`/${item._id}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res).to.be.json;
-          expect(res.body.content).to.equal(postFixture[0].content);
+          expect(res.body.content).to.equal(posts[0].content);
           done();
         });
     });
@@ -96,7 +96,7 @@ describe('Controller post', () => {
   });
 
   it ('should delete a post', done => {
-    Post.findOne({ content: postFixture[0].content }, (err, item) => {
+    Post.findOne({ content: posts[0].content }, (err, item) => {
       chai.request(app)
         .delete(`/${item._id}`)
         .end((err, res) => {

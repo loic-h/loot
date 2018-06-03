@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const fetchMock = require('fetch-mock');
 const thunk = require('redux-thunk').default;
 const configureMockStore = require('redux-mock-store');
-const posts = require('../../fixtures/posts');
+const posts = require('../../fixtures/posts-without-ids');
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -18,10 +18,6 @@ const {
 } = require('../../../src/js/actions/posts');
 
 describe('for posts', () => {
-  afterEach(() => {
-    fetchMock.reset()
-    fetchMock.restore()
-  });
 
   describe('should define type', () => {
 
@@ -55,7 +51,12 @@ describe('for posts', () => {
     expect(action.type).to.equal(FETCH_POSTS_ERROR);
   });
 
-  describe('for fetching', done => {
+  describe('fetch', done => {
+
+    afterEach(() => {
+      fetchMock.reset()
+      fetchMock.restore()
+    });
 
     it('should successfully load posts', done => {
       fetchMock.getOnce('/api/posts', {
@@ -85,7 +86,8 @@ describe('for posts', () => {
 
       store.dispatch(fetchPosts())
         .catch(err => {
-          expect(err).to.equal(err);
+          expect(err).to.equal('error');
+          expect(store.getActions()).to.deep.include({ 'type': FETCH_POSTS_ERROR });
           done();
         });
     });

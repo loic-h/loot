@@ -2,7 +2,7 @@ const chai = require('chai');
 const fetchMock = require('fetch-mock');
 const thunk = require('redux-thunk').default;
 const configureMockStore = require('redux-mock-store');
-const posts = require('../../fixtures/posts');
+const posts = require('../../fixtures/posts-with-ids');
 
 const expect = chai.expect;
 
@@ -53,9 +53,14 @@ describe('for thread', () => {
     expect(action.type).to.equal(FETCH_THREAD_ERROR);
   });
 
-  describe('for fetching', () => {
+  describe('fetch', () => {
 
-    it.only('should successfully load thread', done => {
+    afterEach(() => {
+      fetchMock.reset()
+      fetchMock.restore()
+    });
+
+    it('should successfully load thread', done => {
       fetchMock.getOnce('/api/posts', {
         body: posts,
         headers: { 'content-type': 'application/json'}
@@ -70,6 +75,19 @@ describe('for thread', () => {
           expect(successAction).to.be.not.undefined;
           expect(successAction).to.have.deep.property('postIds')
             .that.deep.equal(['post_1', 'post_2']);
+          done();
+        });
+    });
+
+    it('should failed', done => {
+      fetchMock.getOnce('/api/posts', { throws: 'error' });
+
+      const store = mockStore();
+
+      store.dispatch(fetchThread())
+        .catch(err => {
+          expect(err).to.equal('error');
+          expect(store.getActions()).to.deep.include({ 'type': FETCH_THREAD_ERROR });
           done();
         });
     });
