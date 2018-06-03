@@ -1,8 +1,10 @@
 [
   {
+    "_id": "post_1",
     "content": "Post 1"
   },
   {
+    "_id": "post_2",
     "content": "Post 2"
   }
 ]

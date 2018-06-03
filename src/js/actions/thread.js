@@ -18,11 +18,17 @@ export const errorThread = () => ({
 });
 
 export const fetchThread = () => dispatch => {
-  dispatch(loadThread());
-  dispatch(fetchPosts())
-    .catch(() => dispatch(errorThread()))
-    .then(posts => {
-      const postIds = posts.map(a => a._id);
-      dispatch(successThread(postIds));
-    });
+  return new Promise((resolve, reject) => {
+    dispatch(loadThread());
+    dispatch(fetchPosts())
+      .catch(() => {
+        dispatch(errorThread());
+        reject(err);
+      })
+      .then(posts => {
+        const postIds = posts.map(a => a._id);
+        dispatch(successThread(postIds));
+        resolve(posts);
+      });
+  });
 };
