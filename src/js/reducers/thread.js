@@ -4,7 +4,7 @@ import {
   FETCH_THREAD_ERROR
 } from '../actions/thread';
 
-const initialState = {
+export const initialState = {
   postIds: [],
   isFetching: false,
   page : 0,

@@ -4,7 +4,7 @@ import {
   FETCH_POSTS_ERROR
 } from '../actions/posts';
 
-const initialState = {
+export const initialState = {
   byId: {},
   isFetching: false,
   item: {
