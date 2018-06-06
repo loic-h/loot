@@ -11,6 +11,8 @@ const routeFront = require('./routes/front');
 const app = express();
 const logger = log4js.getLogger('app');
 
+const baseURL = config.BASE || `${config.PROTOCOL}://${config.HOST}:${config.POST}`;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', routeApi);
@@ -19,7 +21,9 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 app.get(routeFront, (req, res) => {
-  res.render('index');
+  res.render('index', {
+    baseURL
+  });
 });
 
 app.use('/static', express.static(path.join(__dirname, '../static')));
