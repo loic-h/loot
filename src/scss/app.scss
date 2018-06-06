@@ -1,5 +1,5 @@
-$color: blue;
-
-html {
-  color: $color;
-}
+@import "./system/colors";
+@import "./system/spacing";
+@import "./system/typography";
+@import "./system/main";
+@import "./system/reset";
