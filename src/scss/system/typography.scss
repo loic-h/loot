@@ -1,13 +1,2 @@
-$font-size-base: 1rem;
-
-$font-sizes: (
-  p: $font-size-base
-);
-
-@function font-size($style: p) {
-  @return map-get($font-sizes, $style);
-}
-
-@mixin font-size($style: p) {
-  font-size: font-size($style);
-}
+$font-size-base: 1.1rem;
+$font-size-thread: $font-size-base * 1.2;

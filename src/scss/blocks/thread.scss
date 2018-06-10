@@ -1,0 +1,13 @@
+.thread {
+  font-size: $font-size-thread;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: $base * 5;
+  max-width: $base * 40;
+  padding-left: $base;
+  padding-right: $base;
+
+  &__container {
+
+  }
+}

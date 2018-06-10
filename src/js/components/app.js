@@ -6,7 +6,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <h1>Loot</h1>
         <Thread />
       </div>
     );

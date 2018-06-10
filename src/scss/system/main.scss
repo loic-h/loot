@@ -3,5 +3,5 @@ body {
   background: $grey;
   color: $black;
   font-family: Arial, sans-serif;
-  font-size: font-size(p);
+  font-size: $font-size-base;
 }

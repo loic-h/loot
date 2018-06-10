@@ -4,9 +4,11 @@ import Post from '../components/post';
 
 const Thread = ({ items }) => (
   <div className="thread">
-    { items.map((item, index) => (
-      <Post key={index} item={item} />
-    )) }
+    <div className="thread__container">
+      { items.map((item, index) => (
+        <Post key={index} item={item} />
+      )) }
+    </div>
   </div>
 );
 
