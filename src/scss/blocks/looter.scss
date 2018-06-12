@@ -1,0 +1,23 @@
+.looter {
+
+  &__box {
+    border: $main-color 1px solid;
+    border-radius: $base * 0.25;
+  }
+
+  &__placeholder {
+    padding: $base / 2;
+    color: $main-color;
+  }
+
+  &__input {
+    color: $black;
+    padding: $base / 2;
+
+    &:empty:before {
+      content: attr(placeholder);
+      display: block;
+      color: rgba($black, 0.5);
+    }
+  }
+}

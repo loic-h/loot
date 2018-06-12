@@ -1,0 +1,9 @@
+.header {
+  background-color: $white;
+
+  &__container {
+    @include container;
+    padding-top: $base;
+    padding-bottom: $base;
+  }
+}

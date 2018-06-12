@@ -1,7 +1,11 @@
 html,
 body {
-  background: $grey;
   color: $black;
   font-family: Arial, sans-serif;
   font-size: $font-size-base;
+  height: 100%;
+}
+
+body {
+  background: rgba($main-color, 0.5);
 }
