@@ -12,6 +12,7 @@
 
   &__input {
     color: $black;
+    min-height: 3em;
     padding: $base / 2;
 
     &:empty:before {

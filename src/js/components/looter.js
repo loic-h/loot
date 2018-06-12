@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import ContentEditable from './contenteditable';
 
 const Looter = ({
   value,
@@ -18,14 +19,13 @@ const Looter = ({
           Loot
         </div>
       ) : (
-        <input
-          type="text"
+        <ContentEditable
           className="looter__input"
           placeholder="Add, Search, #Filter..."
           onBlur={e => onInputBlur(e)}
-          onChange={e => onInputChange(e.target.value)}
-          autoFocus
-          value={value} />
+          onChange={value => onInputChange(value)}
+          autoFocus={true}
+          html={value} />
       )}
     </div>
   </div>
