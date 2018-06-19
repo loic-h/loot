@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import LooterComponent from '../components/looter';
 import { focusLooter, blurLooter, valueLooter } from '../actions/looter';
 import { addPost } from '../actions/posts';
+import { fetchThread } from '../actions/thread';
 
 class Looter extends React.Component {
 
@@ -24,7 +25,7 @@ class Looter extends React.Component {
     if (this.props.value !== "") {
       this.props.addPost({
         content: this.props.value
-      });
+      }).then(() => this.props.fetchThread());
     }
   }
 
@@ -50,7 +51,8 @@ const mapDispatchToProps = dispatch => ({
   focusLooter: () => dispatch(focusLooter()),
   blurLooter: () => dispatch(blurLooter()),
   valueLooter: value => dispatch(valueLooter(value)),
-  addPost: body => dispatch(addPost(body))
+  addPost: body => dispatch(addPost(body)),
+  fetchThread: body => dispatch(fetchThread())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Looter);

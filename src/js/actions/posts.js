@@ -39,8 +39,9 @@ export const addPostLoad = () => ({
   type: ADD_POST_LOAD
 });
 
-export const addPostSuccess = () => ({
-  type: ADD_POST_SUCCESS
+export const addPostSuccess = post => ({
+  type: ADD_POST_SUCCESS,
+  post
 });
 
 export const addPostError = error => ({

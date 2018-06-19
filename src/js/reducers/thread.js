@@ -21,7 +21,7 @@ const thread = (state = initialState, action) => {
     case FETCH_THREAD_SUCCESS:
       return {
         ...state,
-        postIds: state.postIds.concat(action.postIds)
+        postIds: [...new Set([...state.postIds, ...action.postIds])]
       }
     default:
       return state;
