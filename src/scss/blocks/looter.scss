@@ -1,8 +1,9 @@
 .looter {
+  $radius: $base * 0.25;
 
-  &__box {
+  &__bordered-input {
     border: $main-color 1px solid;
-    border-radius: $base * 0.25;
+    border-radius: $radius;
   }
 
   &__placeholder {
@@ -10,8 +11,14 @@
     color: $main-color;
   }
 
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__input {
     color: $black;
+    margin-bottom: $base / 2;
     min-height: 3em;
     padding: $base / 2;
 
@@ -19,6 +26,26 @@
       content: attr(placeholder);
       display: block;
       color: rgba($black, 0.5);
+    }
+  }
+
+  &__submit {
+    align-self: flex-end;
+    background-color: $main-color;
+    border-radius: $radius;
+    color: $white;
+    cursor: pointer;
+    padding: $base / 2 $base;
+    opacity: 0.9;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &[disabled] {
+      cursor: default;
+      opacity: 0.2;
     }
   }
 }

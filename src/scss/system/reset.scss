@@ -60,3 +60,7 @@ input::-ms-clear {
 figure {
   margin: 0;
 }
+
+[contenteditable]:focus {
+    outline: none;
+}
