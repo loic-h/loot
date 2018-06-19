@@ -19,7 +19,7 @@ app.use('/api', routeApi);
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
-console.log(config.APP_NAME);
+
 app.get(routeFront, (req, res) => {
   res.render('index', {
     name: config.APP_NAME,
