@@ -9,11 +9,12 @@ exports.list = (req, res) => {
       if (err.name === 'CastError') {
         res.sendStatus(404);
       } else {
-        logger.error(err);
         res.sendStatus(500);
       }
+      logger.error(err);
     } else {
       res.json(items);
+      logger.debug('list items', JSON.stringify(items));
     }
   });
 };
@@ -24,11 +25,12 @@ exports.detail = (req, res) => {
       if (err.name === 'CastError') {
         res.sendStatus(404);
       } else {
-        logger.error(err);
         res.sendStatus(500);
       }
+      logger.error(err);
     } else {
       res.json(item);
+      logger.debug('detail item', item);
     }
   });
 };
@@ -39,11 +41,12 @@ exports.create = (req, res) => {
       if (err.name === 'ValidationError') {
         res.sendStatus(304);
       } else {
-        logger.error(err);
         res.sendStatus(500);
       }
+      logger.error(err);
     } else {
       res.status(201).json(item);
+      logger.debug('create item', item);
     }
   });
 };
@@ -54,11 +57,12 @@ exports.delete = (req, res) => {
       if (err.name === 'CastError') {
         res.sendStatus(404);
       } else {
-        logger.error(err);
         res.sendStatus(500);
+        logger.error(err);
       }
     } else {
       res.sendStatus(204);
+      logger.debug('delete item', req.params.id);
     }
   });
 };
@@ -71,11 +75,12 @@ exports.update = (req, res) => {
       } else if (err.name === 'ValidationError') {
         res.sendStatus(304);
       } else {
-        logger.error(err);
         res.sendStatus(500);
       }
+      logger.error(err);
     } else {
       res.json(response);
+      logger.debug('delete item', response);
     }
   });
 };
