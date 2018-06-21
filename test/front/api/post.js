@@ -6,7 +6,7 @@ const config = require('../../../config');
 const api = require('../../../src/js/api/posts').default;
 const routeApi = require('../../../app/routes/api');
 
-const expext = chai.expect;
+const expect = chai.expect;
 
 describe('/posts', done => {
 
@@ -16,7 +16,7 @@ describe('/posts', done => {
     app = express();
     app.use(bodyParser.json());
     router = express.Router();
-    router.get('/posts', (req, res) => res.json({"list": "ok"}));
+    router.get('/posts', (req, res) => res.json({ "list": "ok" }));
     app.use('/api', router);
     server = app.listen(config.PORT, () => done());
   });
@@ -28,7 +28,7 @@ describe('/posts', done => {
   it('should serve GET', done => {
     api.list(config.BASE)
       .then(payload => {
-        expext(payload).to.deep.equal({"list": "ok"});
+        expect(payload).to.deep.equal({ "list": "ok" });
         done();
       });
   });
