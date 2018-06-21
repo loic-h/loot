@@ -16,7 +16,8 @@ describe('Controller post', () => {
 
   before(async () => {
     await db.connect();
-    await Post.insertMany(posts);
+    await Post.create(posts[0]);
+    await Post.create(posts[1]);
   });
 
   after(async () => {
@@ -47,6 +48,9 @@ describe('Controller post', () => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         expect(res.body).to.have.lengthOf(2);
+        const bodyContents = res.body.map(a => a.content);
+        const postsContents = posts.slice().reverse().map(a => a.content);
+        expect(bodyContents).to.deep.have.ordered.members(postsContents);
         done();
       });
   });
