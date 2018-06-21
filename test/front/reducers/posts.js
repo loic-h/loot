@@ -20,12 +20,18 @@ describe('posts', () => {
 
   it('should handle FETCH_POSTS_LOAD', () => {
     const state = reducer([], { type: FETCH_POSTS_LOAD });
-    expect(state).to.deep.equal({ isFetching: true });
+    expect(state).to.deep.include({
+      isFetching: true,
+      errorFetching: false
+    });
   });
 
   it('should handle FETCH_POSTS_SUCCESS', () => {
     const state = reducer(initialState, { type: FETCH_POSTS_SUCCESS, posts });
     expect(state).to.have.deep.property('byId', { "post_1": posts[0], "post_2": posts[1] });
-    expect(state).to.have.property('isFetching': false);
+    expect(state).to.deep.include({
+      isFetching: false,
+      errorFetching: false
+    });
   });
 });
