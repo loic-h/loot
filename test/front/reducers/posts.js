@@ -8,7 +8,10 @@ reducer = reducer.default;
 const {
   FETCH_POSTS_LOAD,
   FETCH_POSTS_SUCCESS,
-  FETCH_POSTS_ERROR
+  FETCH_POSTS_ERROR,
+  ADD_POST_LOAD,
+  ADD_POST_SUCCESS,
+  ADD_POST_ERROR
 } = require('../../../src/js/actions/posts');
 
 describe('posts', () => {
@@ -32,6 +35,23 @@ describe('posts', () => {
     expect(state).to.deep.include({
       isFetching: false,
       errorFetching: false
+    });
+  });
+
+  it('should handle ADD_POST_LOAD', () => {
+    const state = reducer([], { type: ADD_POST_LOAD });
+    expect(state).to.deep.include({
+      isAdding: true,
+      errorAdding: false
+    });
+  });
+
+  it('should handle ADD_POST_SUCCESS', () => {
+    const state = reducer(initialState, { type: ADD_POST_SUCCESS, post: posts[0] });
+    expect(state).to.have.deep.property('byId', { "post_1": posts[0] });
+    expect(state).to.deep.include({
+      isAdding: false,
+      errorAdding: false
     });
   });
 });
