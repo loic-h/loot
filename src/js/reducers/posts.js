@@ -68,7 +68,8 @@ const posts = (state = initialState, action) => {
             ...state.byId,
             [action.post._id]: action.post
           },
-          isAdding: false
+          isAdding: false,
+          errorAdding: false
         };
     default:
       return state;
