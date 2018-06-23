@@ -14,10 +14,21 @@ const {
   loadPosts,
   successPosts,
   errorPosts,
-  fetchPosts
+  fetchPosts,
+  ADD_POST_LOAD,
+  ADD_POST_SUCCESS,
+  ADD_POST_ERROR,
+  addPostLoad,
+  addPostSuccess,
+  addPostError,
+  addPost
 } = require('../../../src/js/actions/posts');
 
 describe('for posts', () => {
+
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   describe('should define type', () => {
 
@@ -31,6 +42,18 @@ describe('for posts', () => {
 
     it('for error fetch', () => {
       expect(FETCH_POSTS_ERROR).to.equal('FETCH_POSTS_ERROR');
+    });
+
+    it('for loading add', () => {
+      expect(ADD_POST_LOAD).to.equal('ADD_POST_LOAD');
+    });
+
+    it('for successed add', () => {
+      expect(ADD_POST_SUCCESS).to.equal('ADD_POST_SUCCESS');
+    });
+
+    it('for error add', () => {
+      expect(ADD_POST_ERROR).to.equal('ADD_POST_ERROR');
     });
 
   });
@@ -52,11 +75,6 @@ describe('for posts', () => {
   });
 
   describe('fetch', done => {
-
-    afterEach(() => {
-      fetchMock.reset()
-      fetchMock.restore()
-    });
 
     it('should successfully load posts', done => {
       fetchMock.getOnce('/api/posts', {
@@ -80,7 +98,7 @@ describe('for posts', () => {
     });
 
     it('should fail', done => {
-      fetchMock.get('/api/posts', { throws: 'error' });
+      fetchMock.getOnce('/api/posts', { throws: 'error' });
 
       const store = mockStore();
 
@@ -91,6 +109,60 @@ describe('for posts', () => {
           done();
         });
     });
+  });
 
+  it('should define action for loading add', () => {
+    const action = addPostLoad();
+    expect(action.type).to.equal(ADD_POST_LOAD);
+  });
+
+  it('should define action for successed add', () => {
+    const action = addPostSuccess('foo');
+    expect(action.type).to.equal(ADD_POST_SUCCESS);
+    expect(action.post).to.equal('foo');
+  });
+
+  it('should define action for error add', () => {
+    const action = addPostError();
+    expect(action.type).to.equal(ADD_POST_ERROR);
+  });
+
+  describe('add', () => {
+
+    it('should success', done => {
+      const store = mockStore();
+      const post = posts[0];
+
+      fetchMock.postOnce('/api/posts', {
+        status: 201,
+        body: post,
+        headers: { 'content-type': 'application/json'}
+      });
+
+      const expectedActions = [
+        { type: ADD_POST_LOAD },
+        { type: ADD_POST_SUCCESS, post }
+      ];
+
+      store.dispatch(addPost())
+        .then(payload => {
+          expect(store.getActions()).to.deep.equal(expectedActions);
+          expect(payload).to.deep.equal(post);
+          done();
+        });
+    });
+
+    it('should fail', done => {
+      const store = mockStore();
+
+      fetchMock.postOnce('/api/posts', { throws: 'error' });
+
+      store.dispatch(addPost())
+        .catch(err => {
+          expect(err).to.equal('error');
+          expect(store.getActions()).to.deep.include({ 'type': ADD_POST_ERROR, error: err });
+          done();
+        });
+    });
   });
 });
