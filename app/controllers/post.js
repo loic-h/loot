@@ -80,7 +80,7 @@ exports.update = (req, res) => {
       logger.error(err);
     } else {
       res.json(response);
-      logger.debug('delete item', response);
+      logger.debug('update item', response);
     }
   });
 };

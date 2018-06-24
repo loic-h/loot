@@ -7,12 +7,31 @@ class ContentEditable extends React.Component {
   componentDidMount(prevProps) {
     if (this.props.autoFocus) {
       ReactDOM.findDOMNode(this.input).focus();
+      this.caret();
     }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.html !== prevProps.html) {
       this.caret();
+    }
+  }
+
+  onBlur(e) {
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
+  }
+
+  onFocus(e) {
+    if (this.props.onFocus) {
+      this.props.onFocus(e);
+    }
+  }
+
+  onChange(e) {
+    if (this.props.onChange) {
+      this.props.onChange(e.target.innerHTML)
     }
   }
 
@@ -29,8 +48,9 @@ class ContentEditable extends React.Component {
     return (
       <div
         className={this.props.className}
-        onBlur={e => this.props.onBlur(e)}
-        onInput={e => this.props.onChange(e.target.innerHTML)}
+        onBlur={e => this.onBlur(e)}
+        onFocus={e => this.onFocus(e)}
+        onInput={e => this.onChange(e)}
         contentEditable="true"
         placeholder={this.props.placeholder}
         ref={el => this.input = el}
@@ -41,6 +61,7 @@ class ContentEditable extends React.Component {
 
 ContentEditable.propTypes = {
   onBlur: PropTypes.func,
+  onFocus: PropTypes.func,
   onChange: PropTypes.func,
   html: PropTypes.string,
   autoFocus: PropTypes.bool,

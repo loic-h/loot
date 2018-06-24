@@ -46,5 +46,24 @@ export default {
         return resolve(id);
       })
     });
-  }
+  },
+
+  update: (id, body, base = '') => {
+    return new Promise((resolve, reject) => {
+      const request = {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' }
+      };
+      fetch(`${base}/api/posts/${id}`, request)
+        .catch(err => reject(err))
+        .then(res => {
+          if (res.status !== 200) {
+            return reject(res.status);
+          }
+          return res.json();
+        })
+        .then(json => resolve(json));
+    });
+  },
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import ContentEditable from './contenteditable';
 
 const Post = ({
     body,
@@ -8,7 +9,8 @@ const Post = ({
     isEditing,
     showActions,
     onMouseOver,
-    onMouseOut
+    onMouseOut,
+    onBodyChange
   }) => (
   <div
     className={classnames({
@@ -17,10 +19,17 @@ const Post = ({
     })}
     onMouseOver={ () => onMouseOver() }
     onMouseOut={ () => onMouseOut() }>
-     {isEditing}
-    <div className="post__content">
-      { body.content }
-    </div>
+    { isEditing ? (
+      <ContentEditable
+        className="post__content post__content--editable"
+        onChange={value => onBodyChange('content', value)}
+        autoFocus={true}
+        html={body.content} />
+    ) : (
+      <div className="post__content">
+        { body.content }
+      </div>
+    )}
     <div className="post__controls">
       { Object.keys(actions).map(key => (
         <button key={ key } className="post__control" onClick={ () => actions[key].onClick() }>
@@ -43,7 +52,8 @@ Post.propTypes = {
   isEditing: PropTypes.bool.isRequired,
   showActions: PropTypes.bool.isRequired,
   onMouseOver: PropTypes.func.isRequired,
-  onMouseOut: PropTypes.func.isRequired
+  onMouseOut: PropTypes.func.isRequired,
+  onBodyChange: PropTypes.func.isRequired
 };
 
 export default Post;

@@ -8,7 +8,10 @@ import {
   DELETE_POST_LOAD,
   DELETE_POST_SUCCESS,
   DELETE_POST_ERROR,
-  IS_POST_EDITING
+  IS_POST_EDITING,
+  UPDATE_POST_LOAD,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_ERROR,
 } from '../actions/posts';
 
 export const initialState = {
@@ -19,6 +22,8 @@ export const initialState = {
   errorAdding: null,
   isDeleting: false,
   errorDeleting: null,
+  isUpdating: false,
+  errorUpdating: null,
   editing: {} // { [id]: { isUpdating, errorUpdating } }
 };
 
@@ -106,6 +111,24 @@ const posts = (state = initialState, action) => {
             ...state,
             editing
           }
+        case UPDATE_POST_LOAD:
+          return {
+            ...state,
+            errorUpdating: false,
+            isUpdating: true
+          }
+        case UPDATE_POST_ERROR:
+          return {
+            ...state,
+            isUpdating: false,
+            errorUpdating: true
+          }
+        case UPDATE_POST_SUCCESS:
+          return {
+            ...state,
+            isUpdating: false,
+            errorUpdating: false
+          };
     default:
       return state;
   }

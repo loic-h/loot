@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PostComponent from '../components/post';
-import { deletePost, isPostEditing } from '../actions/posts';
+import { deletePost, updatePost, isPostEditing } from '../actions/posts';
 import { fetchThread } from '../actions/thread';
 
 class Post extends React.Component {
@@ -10,17 +10,18 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      body: props.body,
       showActions: false
     }
   }
 
   onDeleteClick() {
-    this.props.deletePost(this.props.body._id)
+    this.props.deletePost(this.state.body._id)
       .then(() => this.props.fetchThread());
   }
 
   onEditClick() {
-    this.props.isPostEditing(this.props.body._id, true);
+    this.props.isPostEditing(this.state.body._id, true);
   }
 
   onMouseInOut(hover = true) {
@@ -31,19 +32,33 @@ class Post extends React.Component {
     }
   }
 
+  onBodyChange(key, value) {
+    this.setState({
+      body: {
+        ...this.state.body,
+        [key]: value
+      }
+    })
+  }
+
   getActions() {
     if (this.props.isEditing) {
       return {
         save: {
           label: "save",
           onClick: () => {
-            console.log('save');
+            this.props.updatePost(this.state.body._id, {
+              content: this.state.body.content
+            })
+              .then(() => {
+                this.props.isPostEditing(this.state.body._id, false);
+              });
           }
         },
         cancel: {
           label: "cancel",
           onClick: () => {
-            this.props.isPostEditing(this.props.body._id, false);
+            this.props.isPostEditing(this.state.body._id, false);
           }
         }
       }
@@ -64,12 +79,13 @@ class Post extends React.Component {
   render() {
     return (
       <PostComponent
-        body={ this.props.body }
+        body={ this.state.body }
         actions={ this.getActions() }
         showActions={ this.state.showActions }
         isEditing={ this.props.isEditing }
-        onMouseOver= { () => this.onMouseInOut(true) }
-        onMouseOut= { () => this.onMouseInOut(false) } />
+        onMouseOver={ () => this.onMouseInOut(true) }
+        onMouseOut={ () => this.onMouseInOut(false) }
+        onBodyChange={ (key, value) => this.onBodyChange(key, value) } />
     );
   }
 }
@@ -87,7 +103,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   deletePost: id => dispatch(deletePost(id)),
-  editPost: id => dispatch(editPost(id)),
+  updatePost: (id, body) => dispatch(updatePost(id, body)),
   fetchThread: () => dispatch(fetchThread()),
   isPostEditing: (id, isEditing) => dispatch(isPostEditing(id, isEditing))
 });

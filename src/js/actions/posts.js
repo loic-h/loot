@@ -10,6 +10,9 @@ export const DELETE_POST_LOAD = "DELETE_POST_LOAD";
 export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 export const DELETE_POST_ERROR = "DELETE_POST_ERROR";
 export const IS_POST_EDITING = "IS_POST_EDITING";
+export const UPDATE_POST_LOAD = "UPDATE_POST_LOAD";
+export const UPDATE_POST_SUCCESS = "UPDATE_POST_SUCCESS";
+export const UPDATE_POST_ERROR = "UPDATE_POST_ERROR";
 
 export const loadPosts = () => ({
   type: FETCH_POSTS_LOAD
@@ -102,3 +105,32 @@ export const isPostEditing = (id, isEditing) => ({
   isEditing,
   id
 });
+
+export const updatePostLoad = () => ({
+  type: UPDATE_POST_LOAD
+});
+
+export const updatePostSuccess = id => ({
+  type: UPDATE_POST_SUCCESS,
+  id
+});
+
+export const updatePostError = error => ({
+  type: UPDATE_POST_ERROR,
+  error
+});
+
+export const updatePost = (id, body) => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch(updatePostLoad());
+    api.posts.update(id, body)
+      .catch(err => {
+        dispatch(updatePostError(err));
+        reject(err);
+      })
+      .then(json => {
+        dispatch(updatePostSuccess(json));
+        resolve(json);
+      })
+  });
+};
