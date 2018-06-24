@@ -6,6 +6,9 @@ export const FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR';
 export const ADD_POST_LOAD = "ADD_POST_LOAD";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
 export const ADD_POST_ERROR = "ADD_POST_ERROR";
+export const DELETE_POST_LOAD = "DELETE_POST_LOAD";
+export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
+export const DELETE_POST_ERROR = "DELETE_POST_ERROR";
 
 export const loadPosts = () => ({
   type: FETCH_POSTS_LOAD
@@ -60,6 +63,35 @@ export const addPost = body => dispatch => {
       .then(json => {
         dispatch(addPostSuccess(json));
         resolve(json);
+      })
+  });
+};
+
+export const deletePostLoad = () => ({
+  type: DELETE_POST_LOAD
+});
+
+export const deletePostSuccess = id => ({
+  type: DELETE_POST_SUCCESS,
+  id
+});
+
+export const deletePostError = error => ({
+  type: DELETE_POST_ERROR,
+  error
+});
+
+export const deletePost = id => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch(deletePostLoad());
+    api.posts.delete(id)
+      .catch(err => {
+        dispatch(deletePostError(err));
+        reject(err);
+      })
+      .then(id => {
+        dispatch(deletePostSuccess(id));
+        resolve(id);
       })
   });
 };

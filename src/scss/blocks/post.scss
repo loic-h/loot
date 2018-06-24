@@ -1,5 +1,33 @@
 .post {
+  $root: &;
   background: $white;
-  padding: $base * 2 $base * 3;
+  padding: $base * 2 $base * 2 $base;
   margin-bottom: $base;
+
+  &__content {
+    font-size: $font-size-content;
+    margin-bottom: $base / 2;
+  }
+
+  &__controls {
+    opacity: 0;
+    text-align: right;
+  }
+
+  &__control {
+    cursor: pointer;
+    opacity: 0.5;
+    font-size: $font-size-small;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+
+    #{$root}__controls {
+      opacity: 1;
+    }
+  }
 }

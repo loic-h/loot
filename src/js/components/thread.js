@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Post from '../components/post';
+import Post from '../containers/post';
 
 const Thread = ({ items }) => (
   <div className="thread">

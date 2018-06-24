@@ -1,6 +1,5 @@
 .thread {
   @include container;
-  font-size: $font-size-thread;
   margin-top: $base * 2;
   max-width: $base * 40;
   padding-left: $padding-container;

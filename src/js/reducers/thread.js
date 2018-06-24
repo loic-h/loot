@@ -1,7 +1,8 @@
 import {
   FETCH_THREAD_LOAD,
   FETCH_THREAD_SUCCESS,
-  FETCH_THREAD_ERROR
+  FETCH_THREAD_ERROR,
+  UPDATE_THREAD
 } from '../actions/thread';
 
 export const initialState = {
@@ -21,7 +22,8 @@ const thread = (state = initialState, action) => {
     case FETCH_THREAD_SUCCESS:
       return {
         ...state,
-        postIds: [...new Set([...state.postIds, ...action.postIds])]
+        isFetching: false,
+        postIds: action.postIds
       }
     default:
       return state;

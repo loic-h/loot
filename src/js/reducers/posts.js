@@ -4,7 +4,10 @@ import {
   FETCH_POSTS_ERROR,
   ADD_POST_LOAD,
   ADD_POST_SUCCESS,
-  ADD_POST_ERROR
+  ADD_POST_ERROR,
+  DELETE_POST_LOAD,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_ERROR
 } from '../actions/posts';
 
 export const initialState = {
@@ -13,6 +16,8 @@ export const initialState = {
   errorFetching: false,
   isAdding: false,
   errorAdding: null,
+  isDeleting: false,
+  errorDeleting: null,
   item: {
     id: null,
     isEditing: false,
@@ -71,6 +76,25 @@ const posts = (state = initialState, action) => {
           isAdding: false,
           errorAdding: false
         };
+
+        case DELETE_POST_LOAD:
+          return {
+            ...state,
+            errorDeleting: false,
+            isDeleting: true
+          }
+        case DELETE_POST_ERROR:
+          return {
+            ...state,
+            isDeleting: false,
+            errorDeleting: true
+          }
+        case DELETE_POST_SUCCESS:
+          return {
+            ...state,
+            isDeleting: false,
+            errorDeleting: false
+          };
     default:
       return state;
   }
