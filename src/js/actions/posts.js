@@ -9,6 +9,7 @@ export const ADD_POST_ERROR = "ADD_POST_ERROR";
 export const DELETE_POST_LOAD = "DELETE_POST_LOAD";
 export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 export const DELETE_POST_ERROR = "DELETE_POST_ERROR";
+export const IS_POST_EDITING = "IS_POST_EDITING";
 
 export const loadPosts = () => ({
   type: FETCH_POSTS_LOAD
@@ -95,3 +96,9 @@ export const deletePost = id => dispatch => {
       })
   });
 };
+
+export const isPostEditing = (id, isEditing) => ({
+  type: IS_POST_EDITING,
+  isEditing,
+  id
+});

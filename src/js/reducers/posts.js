@@ -7,7 +7,8 @@ import {
   ADD_POST_ERROR,
   DELETE_POST_LOAD,
   DELETE_POST_SUCCESS,
-  DELETE_POST_ERROR
+  DELETE_POST_ERROR,
+  IS_POST_EDITING
 } from '../actions/posts';
 
 export const initialState = {
@@ -18,12 +19,7 @@ export const initialState = {
   errorAdding: null,
   isDeleting: false,
   errorDeleting: null,
-  item: {
-    id: null,
-    isEditing: false,
-    isFetching: false,
-    errorFetching: false
-  }
+  editing: {} // { [id]: { isUpdating, errorUpdating } }
 };
 
 const posts = (state = initialState, action) => {
@@ -95,6 +91,21 @@ const posts = (state = initialState, action) => {
             isDeleting: false,
             errorDeleting: false
           };
+
+        case IS_POST_EDITING:
+          const editing = state.editing;
+          if (action.isEditing) {
+            editing[action.id] = {
+              isUpdating: false,
+              errorUpdating: false
+            };
+          } else {
+            delete editing[action.id];
+          }
+          return {
+            ...state,
+            editing
+          }
     default:
       return state;
   }

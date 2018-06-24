@@ -18,13 +18,14 @@
     cursor: pointer;
     opacity: 0.5;
     font-size: $font-size-small;
+    margin-left: $base;
 
     &:hover {
       opacity: 1;
     }
   }
 
-  &:hover {
+  &--show-actions {
 
     #{$root}__controls {
       opacity: 1;

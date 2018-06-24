@@ -6,7 +6,7 @@ const Thread = ({ items }) => (
   <div className="thread">
     <div className="thread__container">
       { items.map((item, index) => (
-        <Post key={index} item={item} />
+        <Post key={index} body={item} />
       )) }
     </div>
   </div>
