@@ -6,13 +6,15 @@ export const FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR';
 export const ADD_POST_LOAD = "ADD_POST_LOAD";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
 export const ADD_POST_ERROR = "ADD_POST_ERROR";
+export const IS_POST_DELETING = "IS_POST_DELETING";
 export const DELETE_POST_LOAD = "DELETE_POST_LOAD";
 export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 export const DELETE_POST_ERROR = "DELETE_POST_ERROR";
-export const IS_POST_EDITING = "IS_POST_EDITING";
 export const UPDATE_POST_LOAD = "UPDATE_POST_LOAD";
 export const UPDATE_POST_SUCCESS = "UPDATE_POST_SUCCESS";
 export const UPDATE_POST_ERROR = "UPDATE_POST_ERROR";
+export const IS_POST_IN_ACTION = "IS_POST_IN_ACTION";
+export const ERROR_POST_IN_ACTION = "ERROR_POST_IN_ACTION";
 
 export const loadPosts = () => ({
   type: FETCH_POSTS_LOAD
@@ -71,6 +73,12 @@ export const addPost = body => dispatch => {
   });
 };
 
+export const isPostDeleting = (id, isDeleting) => ({
+  type: IS_POST_DELETING,
+  isDeleting,
+  id
+});
+
 export const deletePostLoad = () => ({
   type: DELETE_POST_LOAD
 });
@@ -100,12 +108,6 @@ export const deletePost = id => dispatch => {
   });
 };
 
-export const isPostEditing = (id, isEditing) => ({
-  type: IS_POST_EDITING,
-  isEditing,
-  id
-});
-
 export const updatePostLoad = () => ({
   type: UPDATE_POST_LOAD
 });
@@ -134,3 +136,9 @@ export const updatePost = (id, body) => dispatch => {
       })
   });
 };
+
+export const isPostInAction = (id, action) => ({
+  type: IS_POST_IN_ACTION,
+  id,
+  action
+});
