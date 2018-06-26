@@ -1,9 +1,6 @@
 .thread {
   @include container;
   margin-top: $base * 2;
-  max-width: $base * 40;
-  padding-left: $padding-container;
-  padding-right: $padding-container;
 
   &__container {
 
