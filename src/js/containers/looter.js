@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import LooterComponent from '../components/looter';
 import { focusLooter, blurLooter, valueLooter } from '../actions/looter';
-import { addPost } from '../actions/posts';
+import { addPost } from '../actions/post';
 import { fetchThread } from '../actions/thread';
 
 class Looter extends React.Component {

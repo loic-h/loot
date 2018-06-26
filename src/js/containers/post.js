@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PostComponent from '../components/post';
-import { deletePost, updatePost, isPostInAction, errorPostInAction } from '../actions/posts';
+import { deletePost, updatePost, isPostInAction, errorPostInAction } from '../actions/post';
 import { fetchThread } from '../actions/thread';
 
 class Post extends React.Component {
