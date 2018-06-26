@@ -1,13 +1,15 @@
 .looter {
-  $radius: $base * 0.25;
+  $radius: 4px;
 
   &__bordered-input {
+    background-color: $white;
     border: $main-color 1px solid;
     border-radius: $radius;
+    margin-bottom: $base / 2;
+    padding: $base * 0.75;
   }
 
   &__placeholder {
-    padding: $base / 2;
     color: $main-color;
   }
 
@@ -18,9 +20,6 @@
 
   &__input {
     color: $black;
-    margin-bottom: $base / 2;
-    min-height: 3em;
-    padding: $base / 2;
 
     &:empty:before {
       content: attr(placeholder);
@@ -31,21 +30,25 @@
 
   &__submit {
     align-self: flex-end;
-    background-color: $main-color;
+    border: $white solid 2px;
     border-radius: $radius;
     color: $white;
     cursor: pointer;
     padding: $base / 2 $base;
-    opacity: 0.9;
+    opacity: 1;
 
-    &:hover,
-    &:focus {
-      opacity: 1;
+    &:not([disabled]) {
+
+      &:hover,
+      &:focus {
+        background-color: $white;
+        color: $main-color;
+      }
     }
 
     &[disabled] {
       cursor: default;
-      opacity: 0.2;
+      opacity: 0.5;
     }
   }
 }

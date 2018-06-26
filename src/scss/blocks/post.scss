@@ -3,6 +3,7 @@
   background: $white;
   padding: $base * 2 $base * 2 $base;
   margin-bottom: $base;
+  box-shadow: rgba($black, 0.5) 0 1px 2px 0;
 
   &__content {
     font-size: $font-size-content;
