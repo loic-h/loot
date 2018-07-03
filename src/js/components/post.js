@@ -17,6 +17,9 @@ const Post = ({
     })}
     onMouseOver={ () => onMouseOver() }
     onMouseOut={ () => onMouseOut() }>
+    <div className="post__header">
+      <PostControls id={ body._id }/>
+    </div>
     { isEditing ? (
       <ContentEditable
         className="post__content post__content--editable"
@@ -28,7 +31,6 @@ const Post = ({
         { body.content }
       </div>
     )}
-    <PostControls id={ body._id }/>
   </div>
 );
 

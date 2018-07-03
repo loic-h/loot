@@ -11,10 +11,10 @@
     cursor: pointer;
     display: flex;
     font-size: $font-size-small;
-    height: $base * 2.5;
+    height: $base * 2;
     justify-content: center;
     position: relative;
-    width: $base * 2.5;
+    width: $base * 2;
 
 
     &:before {
