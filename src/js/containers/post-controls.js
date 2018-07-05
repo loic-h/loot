@@ -73,60 +73,12 @@ class PostControls extends React.Component {
   }
 
   getControls() {
-    // if (this.props.isEditing) {
-    //   return {
-    //     save: {
-    //       label: "save",
-    //       onClick: () => {
-    //         this.props.updatePost(this.props.id, {
-    //           content: this.state.body.content
-    //         })
-    //           .then(() => {
-    //             this.props.isPostInAction(this.props.id, false);
-    //             this.setState({ savedBody: null });
-    //           });
-    //       }
-    //     },
-    //     cancel: {
-    //       label: "cancel",
-    //       onClick: () => {
-    //         this.props.isPostInAction(this.props.id, false);
-    //         this.setState({
-    //           body: this.state.savedBody,
-    //           savedBody: null
-    //         });
-    //       }
-    //     }
-    //   }
-    // }
-    //
-    // if (this.props.isDeleting) {
-    //   return {
-    //     save: {
-    //       label: "confirm deletion",
-    //       onClick: () => {
-    //         this.props.deletePost(this.props.id)
-    //           .then(() => {
-    //             this.props.isPostInAction(this.props.id, false);
-    //             this.props.fetchThread();
-    //           });
-    //       }
-    //     },
-    //     cancel: {
-    //       label: "cancel",
-    //       onClick: () => {
-    //         this.props.isPostInAction(this.props.id, false);
-    //       }
-    //     }
-    //   }
-    // }
 
     if (this.props.isOpened) {
       return this.openedControls;
     }
 
     if (this.props.isDeleteSelected) {
-      console.log('yo')
       return this.deleteControls;
     }
 
