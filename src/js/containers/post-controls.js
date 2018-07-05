@@ -13,39 +13,36 @@ class PostControls extends React.Component {
   constructor(props) {
     super(props);
 
-    this.defaultControls = {
+    this.controls = {
       more: {
         label: "open",
         icon: moreHorizontal,
-        onClick: () => this.onOpenClick()
-      }
-    };
-
-    this.openedControls = {
+        onClick: () => this.props.togglePostControls(this.props.id, !this.props.isOpened)
+      },
+      close: {
+        label: "close",
+        icon: x,
+        onClick: () => this.props.togglePostControls(this.props.id, !this.props.isOpened)
+      },
       edit: {
         label: "edit",
         icon: edit2,
-        onClick: () => this.onEditClick(),
+        onClick: () => {
+          this.props.selectPostControls(this.props.id, 'edit');
+          this.setState({ savedBody: { ...this.state.body } });
+        }
       },
       delete: {
         label: "delete",
         icon: trash2,
-        onClick: () => this.onDeleteClick()
+        onClick: () => this.props.selectPostControls(this.props.id, 'delete')
       },
-      more: {
-        label: "close",
-        icon: x,
-        onClick: () => this.onOpenClick()
-      }
-    };
-
-    this.deleteControls = {
       cancel: {
         label: "cancel",
         icon: x,
         onClick: () => this.props.selectPostControls(this.props.id, false)
       },
-      confirm: {
+      confirmDelete: {
         label: "confirm",
         icon: check,
         onClick: () => {
@@ -55,38 +52,40 @@ class PostControls extends React.Component {
               this.props.fetchThread();
             });
         }
+      },
+      confirmEdit: {
+        label: "confirm",
+        icon: check,
+        onClick: () => {
+
+        }
       }
-    };
-  }
-
-  onOpenClick() {
-    this.props.togglePostControls(this.props.id, !this.props.isOpened);
-  }
-
-  onDeleteClick() {
-    this.props.selectPostControls(this.props.id, 'delete');
-  }
-
-  onEditClick() {
-    this.props.selectPostControls(this.props.id, 'edit');
-    this.setState({ savedBody: { ...this.state.body } });
+    }
   }
 
   getControls() {
-
+    let controls;
     if (this.props.isOpened) {
-      return this.openedControls;
+      controls = ["edit", "delete", "close"];
+    }
+    else if (this.props.isDeleteSelected) {
+      controls = ["cancel", "confirmDelete"];
+    }
+    else if (this.props.isEditSelected) {
+      controls = ["cancel", "confirmEdit"];
+    }
+    else {
+      controls = ["more"];
     }
 
-    if (this.props.isDeleteSelected) {
-      return this.deleteControls;
-    }
+    return this.getControlsFromKeys(controls);
+  }
 
-    if (this.props.isEditSelected) {
-      return this.editControls;
-    }
-
-    return this.defaultControls;
+  getControlsFromKeys(keys) {
+    return keys.reduce((obj, key) => {
+      obj[key] = this.controls[key];
+      return obj;
+    }, {});
   }
 
   render() {
