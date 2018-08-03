@@ -17,22 +17,27 @@ const Post = ({
       'post': true
     })}
     onMouseOver={ () => onMouseOver() }
-    onMouseOut={ () => onMouseOut() }>
-    { isEditing ? (
-      <ContentEditable
-        className="post__content post__content--editable"
-        onChange={value => onBodyChange('content', value)}
-        autoFocus={true}
-        html={body.content} />
-    ) : (
-      <div className="post__content">
-        { body.content }
+    onMouseOut={ () => onMouseOut() }
+  >
+    <div className="post__container">
+      { isEditing ? (
+        <ContentEditable
+          className="post__content post__content--editable"
+          onChange={value => onBodyChange('content', value)}
+          autoFocus={true}
+          html={body.content} />
+      ) : (
+        <div className="post__content">
+          { body.content }
+        </div>
+      )}
+      <div className="post__footer">
+        <PostControls id={ body._id }/>
       </div>
-    )}
-    <div className="post__footer">
-      <PostControls id={ body._id }/>
     </div>
-    <Panel id={ body._id } />
+    <div className="post__panel">
+      <Panel id={ body._id } />
+    </div>
   </div>
 );
 

@@ -1,4 +1,16 @@
 .panel {
+  align-items: baseline;
   background-color: $main-color;
   color: $white;
+  display: flex;
+  font-size: $font-size-base;
+  padding: $base / 2;
+
+  &-confirm {
+
+    &__label {
+      flex-grow: 1;
+    }
+  }
+
 }
