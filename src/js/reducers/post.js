@@ -7,9 +7,7 @@ import {
   DELETE_POST_ERROR,
   UPDATE_POST_LOAD,
   UPDATE_POST_SUCCESS,
-  UPDATE_POST_ERROR,
-  IS_POST_IN_ACTION,
-  ERROR_POST_IN_ACTION
+  UPDATE_POST_ERROR
 } from '../actions/posts';
 
 export const initialState = {
@@ -18,8 +16,7 @@ export const initialState = {
   isDeleting: false,
   errorDeleting: null,
   isUpdating: false,
-  errorUpdating: null,
-  inAction: {} // { [id]: { action, error } }
+  errorUpdating: null
 };
 
 const post = (state = initialState, action) => {
@@ -84,31 +81,6 @@ const post = (state = initialState, action) => {
             ...state,
             isUpdating: false,
             errorUpdating: false
-          };
-
-        case IS_POST_IN_ACTION:
-          const inAction = state.inAction;
-          if (action.action) {
-            inAction[action.id] = {
-              action: action.action,
-              error: false
-            };
-          } else {
-            delete inAction[action.id];
-          }
-          return {
-            ...state,
-            inAction
-          };
-        case ERROR_POST_IN_ACTION:
-          return {
-            ...state,
-            inAction: {
-              [action.id]: {
-                ...state.inAction[action.id],
-                error: action.error
-              }
-            }
           };
     default:
       return state;

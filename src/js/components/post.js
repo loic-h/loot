@@ -47,9 +47,13 @@ Post.propTypes = {
     content: PropTypes.string.isRequired
   }),
   isEditing: PropTypes.bool.isRequired,
-  onMouseOver: PropTypes.func.isRequired,
-  onMouseOut: PropTypes.func.isRequired,
+  onMouseOver: PropTypes.func,
+  onMouseOut: PropTypes.func,
   onBodyChange: PropTypes.func.isRequired
 };
 
+Post.defaultProps = {
+  onMouseOver: () => {},
+  onMouseOut: () => {}
+}
 export default Post;

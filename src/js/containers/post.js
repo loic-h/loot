@@ -14,14 +14,6 @@ class Post extends React.Component {
     }
   }
 
-  onMouseInOut(hover = true) {
-    if (!this.props.isInAction) {
-      this.setState({ showActions: hover });
-    } else {
-      this.setState({ showActions: true });
-    }
-  }
-
   onBodyChange(key, value) {
     this.setState({
       body: {
@@ -36,8 +28,6 @@ class Post extends React.Component {
       <PostComponent
         body={ this.state.body }
         isEditing={ this.props.isEditing }
-        onMouseOver={ () => this.onMouseInOut(true) }
-        onMouseOut={ () => this.onMouseInOut(false) }
         onBodyChange={ (key, value) => this.onBodyChange(key, value) } />
     );
   }
@@ -52,11 +42,9 @@ Post.propTypes = {
 
 const mapStateToProps = (state, props) => {
   const id = props.body._id;
-  const action = state.post.inAction[id];
+  console.log(id, state.postControls.selectedControls[id]);
   return {
-    isInAction: !!action,
-    isEditing: !!action && action.action === 'edit',
-    isDeleting: !!action && action.action === 'delete'
+    isEditing: state.postControls.selectedControls[id] === 'edit'
   }
 };
 

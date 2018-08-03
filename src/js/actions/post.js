@@ -10,7 +10,6 @@ export const DELETE_POST_ERROR = "DELETE_POST_ERROR";
 export const UPDATE_POST_LOAD = "UPDATE_POST_LOAD";
 export const UPDATE_POST_SUCCESS = "UPDATE_POST_SUCCESS";
 export const UPDATE_POST_ERROR = "UPDATE_POST_ERROR";
-export const IS_POST_IN_ACTION = "IS_POST_IN_ACTION;"
 
 export const addPostLoad = () => ({
   type: ADD_POST_LOAD
@@ -104,9 +103,3 @@ export const updatePost = (id, body) => dispatch => {
       })
   });
 };
-
-export const isPostInAction = (id, action) => ({
-  type: IS_POST_IN_ACTION,
-  id,
-  action
-});
