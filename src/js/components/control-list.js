@@ -4,17 +4,19 @@ import Control from './control';
 
 const ControlList = ({
   id,
-  controls
+  controls,
+  controlModifiers
 }) => (
   <div className="control-list">
     { Object.keys(controls).map(key => (
-      <Control key={ key } {...controls[key]} />
+      <Control key={ key } { ...controls[key] } modifiers={ controlModifiers } />
     )) }
   </div>
 )
 
 ControlList.propTypes = {
-  controls: PropTypes.object
+  controls: PropTypes.object,
+  controlModifiers: PropTypes.array
 };
 
 export default ControlList;

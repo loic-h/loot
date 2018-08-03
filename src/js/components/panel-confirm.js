@@ -25,7 +25,7 @@ const PanelConfirm = ({
       <div className="panel-confirm__label">
         { label }
       </div>
-      <ControlList controls={ controls } />
+      <ControlList controls={ controls } controlModifiers={ ["light"] } />
     </div>
   );
 }

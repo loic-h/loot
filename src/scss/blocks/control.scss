@@ -42,4 +42,12 @@
       opacity: 1;
     }
   }
+
+  &--light {
+    color: $white;
+
+    &:before {
+      background-color: $white;
+    }
+  }
 }

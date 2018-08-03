@@ -25,12 +25,14 @@ class Control extends React.Component {
   }
 
   render() {
+    const classes = {
+      'control': true,
+      'is-active': this.props.active
+    };
+    this.props.modifiers.forEach(modifier => classes[`control--${modifier}`] = true);
     return (
       <button
-        className={classnames({
-          'control': true,
-          'is-active': this.props.active
-        })}
+        className={classnames(classes)}
         onClick={ () => this.props.onClick() }
         onMouseOver={ () => this.onMouseOver() }
         onMouseLeave={ () => this.onMouseLeave() }
@@ -45,8 +47,13 @@ Control.propTypes = {
   id: PropTypes.object, // svg icon
   hover: PropTypes.object, // svg icon
   label: PropTypes.string,
+  modifiers: PropTypes.array,
   active: PropTypes.bool,
   onClick: PropTypes.func
+};
+
+Control.defaultProps = {
+  modifiers: []
 };
 
 export default Control;
