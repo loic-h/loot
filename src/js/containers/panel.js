@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deletePost, updatePost } from '../actions/post';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
+import { fetchThread } from '../actions/thread';
 import PanelConfirm from '../components/panel-confirm';
 
 class Panel extends React.Component {
@@ -42,7 +43,9 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  deletePost: () => dispatch(deletePost(props.id)),
+  deletePost: () => dispatch(deletePost(props.id)).then(id => {
+    dispatch(fetchThread())
+  }),
   updatePost: body => dispatch(updatePost(id, body)),
   hideControls: () => {
     dispatch(togglePostControls(props.id, false));
