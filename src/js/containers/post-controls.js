@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import PostControlsComponent from '../components/post-controls';
+import ControlListComponent from '../components/control-list';
 import { moreHorizontal, trash2, edit2, x, check } from 'react-icons-kit/feather/';
-import { fetchThread } from '../actions/thread';
-import { deletePost, updatePost } from '../actions/post';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
 
 
@@ -16,48 +14,42 @@ class PostControls extends React.Component {
     this.controls = {
       more: {
         label: "open",
-        icon: moreHorizontal,
-        onClick: () => this.props.togglePostControls(this.props.id, !this.props.isOpened)
+        id: moreHorizontal,
+        onClick: () => this.props.togglePostControls(!this.props.isOpened)
       },
       close: {
         label: "close",
-        icon: x,
-        onClick: () => this.props.togglePostControls(this.props.id, !this.props.isOpened)
+        id: x,
+        onClick: () => this.props.togglePostControls(!this.props.isOpened)
       },
       edit: {
         label: "edit",
-        icon: edit2,
-        onClick: () => {
-          this.props.selectPostControls(this.props.id, 'edit');
-          this.setState({ savedBody: { ...this.state.body } });
-        }
+        id: edit2,
+        onClick: () => this.props.selectPostControls('edit')
       },
       delete: {
         label: "delete",
-        icon: trash2,
-        onClick: () => this.props.selectPostControls(this.props.id, 'delete')
+        id: trash2,
+        onClick: () => this.props.selectPostControls('delete')
       },
-      cancel: {
-        label: "cancel",
-        icon: x,
-        onClick: () => this.props.selectPostControls(this.props.id, false)
-      },
-      confirmDelete: {
-        label: "confirm",
-        icon: check,
+      deleteSelected: {
+        label: "delete-selected",
+        id: trash2,
+        active: true,
+        hover: x,
         onClick: () => {
-          this.props.deletePost(this.props.id)
-            .then(() => {
-              this.props.selectPostControls(this.props.id, false);
-              this.props.fetchThread();
-            });
+          this.props.selectPostControls(false);
+          this.props.togglePostControls(false);
         }
       },
-      confirmEdit: {
-        label: "confirm",
-        icon: check,
+      editSelected: {
+        label: "edit-selected",
+        id: edit2,
+        active: true,
+        hover: x,
         onClick: () => {
-
+          this.props.selectPostControls(false);
+          this.props.togglePostControls(false);
         }
       }
     }
@@ -65,19 +57,18 @@ class PostControls extends React.Component {
 
   getControls() {
     let controls;
-    if (this.props.isOpened) {
-      controls = ["edit", "delete", "close"];
-    }
-    else if (this.props.isDeleteSelected) {
-      controls = ["cancel", "confirmDelete"];
+    if (this.props.isDeleteSelected) {
+      controls = ["deleteSelected"];
     }
     else if (this.props.isEditSelected) {
-      controls = ["cancel", "confirmEdit"];
+      controls = ["editSelected"];
+    }
+    else if (this.props.isOpened) {
+      controls = ["edit", "delete", "close"];
     }
     else {
       controls = ["more"];
     }
-
     return this.getControlsFromKeys(controls);
   }
 
@@ -90,9 +81,8 @@ class PostControls extends React.Component {
 
   render() {
     return (
-      <PostControlsComponent
-        actions={ this.getControls() }
-        isOpened={ this.props.isOpened } />
+      <ControlListComponent
+        controls={ this.getControls() } />
     );
   }
 }
@@ -100,17 +90,15 @@ class PostControls extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     isOpened: state.postControls.opened.indexOf(props.id) >= 0,
+    selectedControl: state.postControls.selectedControls[props.id],
     isDeleteSelected: state.postControls.selectedControls[props.id] === 'delete',
     isEditSelected: state.postControls.selectedControls[props.id] === 'edit'
   }
 };
 
-const mapDispatchToProps = dispatch => ({
-  togglePostControls: (id, toggle) => dispatch(togglePostControls(id, toggle)),
-  selectPostControls: (id, action) => dispatch(selectPostControls(id, action)),
-  deletePost: id => dispatch(deletePost(id)),
-  updatePost: (id, body) => dispatch(updatePost(id, body)),
-  fetchThread: () => dispatch(fetchThread())
+const mapDispatchToProps = (dispatch, props) => ({
+  togglePostControls: toggle => dispatch(togglePostControls(props.id, toggle)),
+  selectPostControls: action => dispatch(selectPostControls(props.id, action))
 });
 
 PostControls.propTypes = {

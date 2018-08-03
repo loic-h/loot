@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ContentEditable from './contenteditable';
 import PostControls from '../containers/post-controls';
+import Panel from '../containers/panel';
 
 const Post = ({
     body,
@@ -31,6 +32,7 @@ const Post = ({
     <div className="post__footer">
       <PostControls id={ body._id }/>
     </div>
+    <Panel id={ body._id } />
   </div>
 );
 
