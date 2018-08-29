@@ -20,17 +20,15 @@ const Post = ({
     onMouseOut={ () => onMouseOut() }
   >
     <div className="post__container">
-      { isEditing ? (
-        <ContentEditable
-          className="post__content post__content--editable"
-          onChange={value => onBodyChange('content', value)}
-          autoFocus={true}
-          html={body.content} />
-      ) : (
-        <div className="post__content">
-          { body.content }
-        </div>
-      )}
+      <ContentEditable
+        className={classnames({
+          'post__content': true,
+          'post__content--editable': isEditing
+        })}
+        onChange={value => onBodyChange('content', value)}
+        autoFocus={true}
+        html={body.content}
+        edit={isEditing} />
       <div className="post__footer">
         <PostControls id={ body._id }/>
       </div>

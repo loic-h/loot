@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deletePost, updatePost } from '../actions/post';
+import { deletePost, updatePost, mockPost } from '../actions/post';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
 import { fetchThread } from '../actions/thread';
 import PanelConfirm from '../components/panel-confirm';
@@ -16,8 +16,20 @@ class Panel extends React.Component {
         props: {
           label: "Do you want to delete this post?",
           onConfirm: () => this.props.deletePost(this.props.id),
+          onCancel: () => this.props.hideControls()
+        }
+      },
+      edit: {
+        component: PanelConfirm,
+        props: {
+          label: "Save?",
+          onConfirm: () => {
+            this.props.updatePost(this.props.mockedBody)
+              .then(() => this.props.hideControls());
+          },
           onCancel: () => {
-            this.props.hideControls()
+            this.props.resetPost();
+            this.props.hideControls();
           }
         }
       }
@@ -38,7 +50,8 @@ class Panel extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    selectedControl: state.postControls.selectedControls[props.id]
+    selectedControl: state.postControls.selectedControls[props.id],
+    mockedBody: state.post.mocked[props.id]
   }
 };
 
@@ -46,7 +59,8 @@ const mapDispatchToProps = (dispatch, props) => ({
   deletePost: () => dispatch(deletePost(props.id)).then(id => {
     dispatch(fetchThread())
   }),
-  updatePost: body => dispatch(updatePost(id, body)),
+  updatePost: body => dispatch(updatePost(props.id, body)),
+  resetPost: body => dispatch(mockPost(props.id)),
   hideControls: () => {
     dispatch(togglePostControls(props.id, false));
     dispatch(selectPostControls(props.id, false));

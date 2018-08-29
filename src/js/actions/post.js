@@ -10,6 +10,7 @@ export const DELETE_POST_ERROR = "DELETE_POST_ERROR";
 export const UPDATE_POST_LOAD = "UPDATE_POST_LOAD";
 export const UPDATE_POST_SUCCESS = "UPDATE_POST_SUCCESS";
 export const UPDATE_POST_ERROR = "UPDATE_POST_ERROR";
+export const MOCK_POST = "MOCK_POST";
 
 export const addPostLoad = () => ({
   type: ADD_POST_LOAD
@@ -100,6 +101,12 @@ export const updatePost = (id, body) => dispatch => {
       .then(json => {
         dispatch(updatePostSuccess(json));
         resolve(json);
-      })
+      });
   });
 };
+
+export const mockPost = (id, body) => ({
+  type: MOCK_POST,
+  id,
+  body
+});

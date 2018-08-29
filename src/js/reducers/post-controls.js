@@ -36,7 +36,7 @@ const postControls = (state = initialState, action) => {
         selectedControls
       }
     default:
-      return initialState;
+      return state;
   }
 }
 

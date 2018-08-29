@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 class ContentEditable extends React.Component {
 
@@ -13,6 +14,10 @@ class ContentEditable extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.html !== prevProps.html) {
+      this.caret();
+    }
+    if (this.props.edit && !prevProps.edit) {
+      this.input.focus();
       this.caret();
     }
   }
@@ -45,13 +50,18 @@ class ContentEditable extends React.Component {
   }
 
   render() {
+    const classes = classnames
     return (
       <div
-        className={this.props.className}
+        className={classnames({
+          'contenteditable': true,
+          [this.props.className]: true,
+          'contenteditable--edit': this.props.edit
+        })}
         onBlur={e => this.onBlur(e)}
         onFocus={e => this.onFocus(e)}
         onInput={e => this.onChange(e)}
-        contentEditable="true"
+        contentEditable={this.props.edit}
         placeholder={this.props.placeholder}
         ref={el => this.input = el}
         dangerouslySetInnerHTML={{__html: this.props.html}} />
@@ -66,7 +76,8 @@ ContentEditable.propTypes = {
   html: PropTypes.string,
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  edit: PropTypes.bool
 };
 
 export default ContentEditable;

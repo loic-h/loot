@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { mockPost } from '../actions/post';
 import PostComponent from '../components/post';
 
 class Post extends React.Component {
@@ -14,13 +15,19 @@ class Post extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.mockedBody && !this.props.mockedBody) {
+      this.setState({ body: this.props.savedBody });
+    }
+  }
+
   onBodyChange(key, value) {
-    this.setState({
-      body: {
-        ...this.state.body,
-        [key]: value
-      }
-    })
+    const body = {
+      ...this.state.body,
+      [key]: value
+    };
+    this.setState({ body });
+    this.props.mockPost(body);
   }
 
   render() {
@@ -42,14 +49,17 @@ Post.propTypes = {
 
 const mapStateToProps = (state, props) => {
   const id = props.body._id;
-  console.log(id, state.postControls.selectedControls[id]);
   return {
-    isEditing: state.postControls.selectedControls[id] === 'edit'
+    isEditing: state.postControls.selectedControls[id] === 'edit',
+    mockedBody: state.post.mocked[id],
+    savedBody: state.posts.byId[id]
   }
 };
 
-const mapDispatchToProps = dispatch => ({
-
+const mapDispatchToProps = (dispatch, props) => ({
+  mockPost: body => {
+    dispatch(mockPost(body._id, body));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);
