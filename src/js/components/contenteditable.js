@@ -34,12 +34,6 @@ class ContentEditable extends React.Component {
     }
   }
 
-  onChange(e) {
-    if (this.props.onChange) {
-      this.props.onChange(e.target.innerHTML)
-    }
-  }
-
   caret() {
     const range = document.createRange();
     range.selectNodeContents(this.input);
@@ -60,7 +54,6 @@ class ContentEditable extends React.Component {
         })}
         onBlur={e => this.onBlur(e)}
         onFocus={e => this.onFocus(e)}
-        onInput={e => this.onChange(e)}
         contentEditable={this.props.edit}
         placeholder={this.props.placeholder}
         ref={el => this.input = el}
@@ -78,6 +71,10 @@ ContentEditable.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
   edit: PropTypes.bool
+};
+
+ContentEditable.defaultProps = {
+  edit: true
 };
 
 export default ContentEditable;
