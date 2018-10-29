@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import ContentEditable from './contenteditable';
+import Textarea from './textarea';
 
 const Looter = ({
   value,
@@ -21,13 +21,13 @@ const Looter = ({
       </div>
     ) : (
       <div className="looter__form">
-        <ContentEditable
+        <Textarea
           className="looter__input looter__bordered-input"
           placeholder="Add, Search, #Filter..."
           onBlur={e => onInputBlur(e)}
           onChange={value => onInputChange(value)}
-          autoFocus={true}
-          html={value} />
+          value={value}
+          edit={true} />
         <button
           className="looter__submit"
           onClick={e => onSubmitClick()}

@@ -25,7 +25,11 @@ class Panel extends React.Component {
           label: "Save?",
           onConfirm: () => {
             this.props.updatePost(this.props.mockedBody)
-              .then(() => this.props.hideControls());
+              .then(() => {
+                this.props.fetchThread();
+                this.props.hideControls();
+                this.props.resetPost();
+            });
           },
           onCancel: () => {
             this.props.resetPost();
@@ -60,6 +64,7 @@ const mapDispatchToProps = (dispatch, props) => ({
     dispatch(fetchThread())
   }),
   updatePost: body => dispatch(updatePost(props.id, body)),
+  fetchThread: () => dispatch(fetchThread()),
   resetPost: body => dispatch(mockPost(props.id)),
   hideControls: () => {
     dispatch(togglePostControls(props.id, false));

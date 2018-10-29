@@ -18,6 +18,8 @@ class Post extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.mockedBody && !this.props.mockedBody) {
       this.setState({ body: this.props.savedBody });
+    } else if (!this.props.mockedBody && prevProps.body !== this.props.body) {
+      this.setState({ body: this.props.body });
     }
   }
 
