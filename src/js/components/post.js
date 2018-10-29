@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import ContentEditable from './contenteditable';
+import Textarea from './textarea';
 import PostControls from '../containers/post-controls';
 import Panel from '../containers/panel';
 
@@ -20,14 +20,14 @@ const Post = ({
     onMouseOut={ () => onMouseOut() }
   >
     <div className="post__container">
-      <ContentEditable
+      <Textarea
         className={classnames({
           'post__content': true,
           'post__content--editable': isEditing
         })}
         onChange={value => onBodyChange('content', value)}
         autoFocus={true}
-        html={body.content}
+        value={isEditing ? body.content : body.mappedContent}
         edit={isEditing} />
       <div className="post__footer">
         <PostControls id={ body._id }/>

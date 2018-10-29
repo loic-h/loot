@@ -1,0 +1,20 @@
+.textarea {
+  position: relative;
+  overflow: hidden;
+
+  &__input {
+    width: 100%;
+    resize:none;
+    display: block;
+  }
+
+  &__ghost {
+    white-space: pre-wrap;
+    box-sizing: border-box;
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    left: -200%;
+    top: -200%;
+  }
+}
