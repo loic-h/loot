@@ -14,7 +14,6 @@ exports.list = (req, res) => {
       logger.error(err);
     } else {
       res.json(items);
-      logger.debug('list items', JSON.stringify(items));
     }
   }).sort({ created_at: -1 });
 };
