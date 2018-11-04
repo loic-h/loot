@@ -15,21 +15,15 @@ const postSchema = new mongoose.Schema({
   }
 });
 
-postSchema.post('save', (doc, next) => {
-  this.update({ mappedContent: mapContent(doc.content) });
-});
-
-postSchema.post('init', (doc, next) => {
-  mapContent(doc.content);
-});
-
-postSchema.pre('updateOne', function(next) {
-  const content = this.getUpdate().content;
-  if (content) {
-    this.update({ mappedContent: mapContent(content) });
-  }
+postSchema.pre('save', function(next) {
+  this.mappedContent = mapContent(this.content);
   next();
 });
+
+// Save mapped content on int
+// postSchema.post('init', function(doc) {
+//   this.mappedContent = mapContent(doc.content);
+// });
 
 function mapContent(content) {
   content = mapUrls(content);
