@@ -22,11 +22,11 @@ const postSchema = new mongoose.Schema({
 
 postSchema.pre('save', function(next) {
   this.mappedContent = mapContent(this.content);
-  const url = urlUtils.getUrls(doc.content)[0];
+  const url = urlUtils.getUrls(this.content)[0];
   urlUtils.getMetas(url)
     .then(metas => this.metas = metas)
-    .catch(() => this.metas = null);
-  next();
+    .catch(() => this.metas = null)
+    .finally(next);
 });
 
 // Save mapped content on int
