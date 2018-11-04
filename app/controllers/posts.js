@@ -19,7 +19,7 @@ exports.list = (req, res) => {
 };
 
 exports.search = (req, res) => {
-  Post.find({ $text: { $search: req.params.searchString } }, '_id', (err, items) => {
+  Post.find({ content: { $regex: req.params.query } }, '_id', (err, items) => {
     if (err) {
       if (err.name === 'CastError') {
         res.sendStatus(404);

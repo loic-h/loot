@@ -27,7 +27,7 @@ const looter = (state = initialState, action) => {
         value: action.value
       }
     default:
-      return initialState;
+      return state;
   }
 };
 

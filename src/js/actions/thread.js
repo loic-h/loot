@@ -1,3 +1,4 @@
+import api from '../api';
 import { fetchPosts } from './posts';
 
 export const FETCH_THREAD_LOAD = 'FETCH_THREAD_LOAD';
@@ -28,15 +29,14 @@ export const fetchThread = () => dispatch => {
       })
       .then(posts => {
         const postIds = posts.map(a => a._id);
-        dispatch(successThread(postIds));
+        dispatch(successThread());
+        dispatch(updateThread(postIds));
         resolve(posts);
       });
   });
 };
 
-export const updateThread = () => (dispatch, getState) => {
-  const posts = getState().posts.byId;
-  const postIds = Object.keys(posts);
+export const updateThread = postIds => (dispatch, getState) => {
   dispatch({
     type: UPDATE_THREAD,
     postIds
