@@ -15,6 +15,8 @@ const postSchema = new mongoose.Schema({
   }
 });
 
+postSchema.index({ content: 'text' });
+
 postSchema.pre('save', function(next) {
   this.mappedContent = mapContent(this.content);
   next();

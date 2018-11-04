@@ -18,8 +18,8 @@ exports.list = (req, res) => {
   }).sort({ created_at: -1 });
 };
 
-exports.detail = (req, res) => {
-  Post.findOne({ _id: req.params.id }, (err, item) => {
+exports.search = (req, res) => {
+  Post.find({ $text: { $search: req.params.searchString } }, '_id', (err, items) => {
     if (err) {
       if (err.name === 'CastError') {
         res.sendStatus(404);
@@ -28,58 +28,7 @@ exports.detail = (req, res) => {
       }
       logger.error(err);
     } else {
-      res.json(item);
-      logger.debug('detail item', item);
+      res.json(items);
     }
-  });
-};
-
-exports.create = (req, res) => {
-  Post.create(req.body, (err, item) => {
-    if (err) {
-      if (err.name === 'ValidationError') {
-        res.sendStatus(304);
-      } else {
-        res.sendStatus(500);
-      }
-      logger.error(err);
-    } else {
-      res.status(201).json(item);
-      logger.debug('create item', item);
-    }
-  });
-};
-
-exports.delete = (req, res) => {
-  Post.deleteOne({ _id: req.params.id }, err => {
-    if (err) {
-      if (err.name === 'CastError') {
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(500);
-        logger.error(err);
-      }
-    } else {
-      res.sendStatus(204);
-      logger.debug('delete item', req.params.id);
-    }
-  });
-};
-
-exports.update = (req, res) => {
-  Post.updateOne({ _id: req.params.id }, req.body, (err, response) => {
-    if (err) {
-      if (err.name === 'CastError') {
-        res.sendStatus(404);
-      } else if (err.name === 'ValidationError') {
-        res.sendStatus(304);
-      } else {
-        res.sendStatus(500);
-      }
-      logger.error(err);
-    } else {
-      res.json(response);
-      logger.debug('update item', response);
-    }
-  });
+  }).sort({ created_at: -1 });
 };
