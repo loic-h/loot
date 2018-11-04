@@ -29,7 +29,7 @@ export const addPostError = error => ({
 export const addPost = body => dispatch => {
   return new Promise((resolve, reject) => {
     dispatch(addPostLoad());
-    api.posts.add(body)
+    api.post.add(body)
       .catch(err => {
         dispatch(addPostError(err));
         reject(err);
@@ -64,7 +64,7 @@ export const deletePostError = error => ({
 export const deletePost = id => dispatch => {
   return new Promise((resolve, reject) => {
     dispatch(deletePostLoad());
-    api.posts.delete(id)
+    api.post.delete(id)
       .catch(err => {
         dispatch(deletePostError(err));
         reject(err);
@@ -93,7 +93,7 @@ export const updatePostError = error => ({
 export const updatePost = (id, body) => dispatch => {
   return new Promise((resolve, reject) => {
     dispatch(updatePostLoad());
-    api.posts.update(id, body)
+    api.post.update(id, body)
       .catch(err => {
         dispatch(updatePostError(err));
         reject(err);

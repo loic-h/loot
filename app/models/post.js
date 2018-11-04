@@ -23,6 +23,7 @@ postSchema.pre('save', function(next) {
 // Save mapped content on int
 // postSchema.post('init', function(doc) {
 //   this.mappedContent = mapContent(doc.content);
+//   this.save()
 // });
 
 function mapContent(content) {
