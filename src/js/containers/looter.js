@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import LooterComponent from '../components/looter';
 import { focusLooter, blurLooter, valueLooter } from '../actions/looter';
-import { addPost } from '../actions/post';
 import { searchPosts } from '../actions/posts';
 import { fetchThread } from '../actions/thread';
 
@@ -21,14 +20,6 @@ class Looter extends React.Component {
   onInputChange(value) {
     this.props.valueLooter(value);
     this.props.searchPosts(value);
-  }
-
-  onSubmitClick() {
-    if (this.props.value !== "") {
-      this.props.addPost({
-        content: this.props.value
-      }).then(() => this.props.fetchThread());
-    }
   }
 
   render() {
@@ -53,7 +44,6 @@ const mapDispatchToProps = dispatch => ({
   focusLooter: () => dispatch(focusLooter()),
   blurLooter: () => dispatch(blurLooter()),
   valueLooter: value => dispatch(valueLooter(value)),
-  addPost: body => dispatch(addPost(body)),
   fetchThread: body => dispatch(fetchThread()),
   searchPosts: value => dispatch(searchPosts(value))
 });

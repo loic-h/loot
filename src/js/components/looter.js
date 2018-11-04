@@ -9,7 +9,6 @@ const Looter = ({
   onPlaceholderClick,
   onInputBlur,
   onInputChange,
-  onSubmitClick,
   inputDisabled
 }) => (
   <div className={classnames({ 'looter': true, 'looter--focus': focused })}>
@@ -28,12 +27,6 @@ const Looter = ({
           onChange={value => onInputChange(value)}
           value={value}
           edit={true} />
-        <button
-          className="looter__submit"
-          onClick={e => onSubmitClick()}
-          disabled={value === ''} >
-          Add
-        </button>
       </div>
     )}
   </div>
@@ -45,7 +38,6 @@ Looter.propTypes = {
   onPlaceholderClick: PropTypes.func.isRequired,
   onInputBlur: PropTypes.func.isRequired,
   onInputChange: PropTypes.func.isRequired,
-  onSubmitClick: PropTypes.func.isRequired,
   inputDisabled: PropTypes.bool
 };
 

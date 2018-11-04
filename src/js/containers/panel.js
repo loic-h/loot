@@ -73,7 +73,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 });
 
 Panel.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Panel);

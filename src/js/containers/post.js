@@ -44,9 +44,10 @@ class Post extends React.Component {
 
 Post.propTypes = {
   body: PropTypes.shape({
-    _id: PropTypes.string.required,
+    _id: PropTypes.string,
     content: PropTypes.string.required
   }),
+  add: PropTypes.bool
 };
 
 const mapStateToProps = (state, props) => {
