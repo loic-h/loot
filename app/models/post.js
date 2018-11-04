@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mapUrls = require('../lib/url').mapUrls;
+const urlUtils = require('../lib/url');
 
 const postSchema = new mongoose.Schema({
   content: {
@@ -9,6 +9,11 @@ const postSchema = new mongoose.Schema({
   mappedContent: {
     type: String
   },
+  metas: {
+    url: String,
+    title: String,
+    description: String
+  },
   created_at: {
     type: Date,
     default: Date.now
@@ -17,17 +22,27 @@ const postSchema = new mongoose.Schema({
 
 postSchema.pre('save', function(next) {
   this.mappedContent = mapContent(this.content);
+  const url = urlUtils.getUrls(doc.content)[0];
+  urlUtils.getMetas(url)
+    .then(metas => this.metas = metas)
+    .catch(() => this.metas = null);
   next();
 });
 
 // Save mapped content on int
 // postSchema.post('init', function(doc) {
 //   this.mappedContent = mapContent(doc.content);
-//   this.save()
+//   const url = urlUtils.getUrls(doc.content)[0];
+//   urlUtils.getMetas(url)
+//     .then(metas => this.metas = metas)
+//     .catch(() => this.metas = null)
+//     .finally(() => {
+//       this.save();
+//     });
 // });
 
 function mapContent(content) {
-  content = mapUrls(content);
+  content = urlUtils.mapUrls(content);
   return content;
 }
 
