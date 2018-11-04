@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ThreadComponent from '../components/thread';
 import { fetchThread } from '../actions/thread';
 import { addPost } from '../actions/post';
+import { resetLooter } from '../actions/looter';
 
 class Thread extends React.Component {
 
@@ -14,7 +15,10 @@ class Thread extends React.Component {
     if (query !== "") {
       this.props.addPost({
         content: query
-      }).then(() => this.props.fetchThread());
+      }).then(() => {
+        this.props.fetchThread();
+        this.props.resetLooter();
+      });
     }
   }
 
@@ -38,6 +42,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchThread: () => dispatch(fetchThread()),
   addPost: body => dispatch(addPost(body)),
+  resetLooter: () => dispatch(resetLooter()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Thread);

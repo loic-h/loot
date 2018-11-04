@@ -1,7 +1,8 @@
 import {
   LOOTER_FOCUS,
   LOOTER_BLUR,
-  LOOTER_VALUE
+  LOOTER_VALUE,
+  LOOTER_RESET
 } from '../actions/looter';
 
 export const initialState = {
@@ -25,6 +26,12 @@ const looter = (state = initialState, action) => {
       return {
         ...state,
         value: action.value
+      }
+    case LOOTER_RESET:
+      return {
+        ...state,
+        value: '',
+        focus: false
       }
     default:
       return state;
