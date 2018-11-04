@@ -15,7 +15,7 @@ export default {
 
   search: (query, base = '') => {
     return new Promise((resolve, reject) => {
-      fetch(`${base}/api/posts/${query}`)
+      fetch(`${base}/api/posts?query=${encodeURIComponent(query)}`)
         .catch(err => reject(err))
         .then(res => {
           if (res.status !== 200) {
