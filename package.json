@@ -7,7 +7,7 @@
     "test": "export NODE_ENV=test && mocha --exit --require babel-polyfill --require babel-register --require isomorphic-fetch",
     "start": "npm run app:stop && export NODE_ENV=production && npm run clean && npm run front:build && npm run app:start",
     "app:start": "pm2 start app/index.js --name loot",
-    "app:stop": "pm2 delete loot",
+    "app:stop": "pm2 stop --silent loot || :",
     "app:reload": "pm2 reload loot",
     "front:build": "mkdir -p static && webpack --mode production --config config/webpack.config.js",
     "dev": "export NODE_ENV=development && npm run clean && (npm run front:dev & npm run app:dev)",
