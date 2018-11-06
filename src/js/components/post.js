@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import Textarea from './textarea';
 import PostControls from '../containers/post-controls';
 import Panel from '../containers/panel';
+import UrlCard from '../components/url-card';
 
 const Post = ({
     body,
@@ -20,15 +21,24 @@ const Post = ({
     onMouseOut={ () => onMouseOut() }
   >
     <div className="post__container">
-      <Textarea
-        className={classnames({
-          'post__content': true,
-          'post__content--editable': isEditing
-        })}
-        onChange={value => onBodyChange('content', value)}
-        autoFocus={true}
-        value={isEditing ? body.content : body.mappedContent}
-        edit={isEditing} />
+      <div className="post__body">
+        <Textarea
+          className={classnames({
+            'post__content': true,
+            'post__content--editable': isEditing
+          })}
+          onChange={value => onBodyChange('content', value)}
+          autoFocus={true}
+          value={isEditing ? body.content : body.mappedContent}
+          edit={isEditing} />
+        { body.metas && (
+          <UrlCard
+            className="post__url-card"
+            url={body.metas.url}
+            title={body.metas.title}
+            description={body.metas.description} />
+        ) }
+      </div>
       <div className="post__footer">
         <PostControls id={ body._id }/>
       </div>

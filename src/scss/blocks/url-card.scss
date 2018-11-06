@@ -1,0 +1,21 @@
+.url-card {
+  border: solid 1px $grey-mid;
+  font-size: $font-size-small;
+  margin-top: $base;
+  cursor: pointer;
+
+  &__link {
+    display: block;
+    padding: $base;
+    text-decoration: none;
+  }
+
+  &__title {
+    font-weight: bold;
+    margin-bottom: $base/2;
+  }
+
+  &__description {
+    color: $grey;
+  }
+}
