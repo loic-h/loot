@@ -27,6 +27,7 @@ const Post = ({
             'post__content': true,
             'post__content--editable': isEditing
           })}
+          textClassname="post-mark"
           onChange={value => onBodyChange('content', value)}
           autoFocus={true}
           value={isEditing ? body.content : body.mappedContent}

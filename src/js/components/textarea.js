@@ -89,7 +89,9 @@ export default class Text extends React.Component {
         ) : (
           <div className="textarea__content textarea__content--display">
             {this.props.render ? this.props.render(this.props.value) : (
-              <div dangerouslySetInnerHTML={{__html: this.props.value}} />
+              <div className={classnames({
+                [this.props.textClassname]: this.props.textClassname
+              })} dangerouslySetInnerHTML={{__html: this.props.value}} />
             )}
           </div>
         )}

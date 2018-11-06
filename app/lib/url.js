@@ -7,7 +7,7 @@ function getUrls(input) {
 }
 
 function mapUrls(input) {
-  return input.replace(urlRegex, match => `<a href="${match}">${match}</a>`);
+  return input.replace(urlRegex, match => `<a href="${match}" target="blank">${match}</a>`);
 }
 
 function getMetas(url) {
