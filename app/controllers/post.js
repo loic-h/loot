@@ -52,19 +52,25 @@ exports.delete = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  Post.updateOne({ _id: req.params.id }, req.body, (err, response) => {
+  Post.findById(req.params.id, (err, doc) => {
     if (err) {
-      if (err.name === 'CastError') {
-        res.sendStatus(404);
-      } else if (err.name === 'ValidationError') {
-        res.sendStatus(304);
-      } else {
-        res.sendStatus(500);
-      }
-      logger.error(err);
-    } else {
-      res.json(response);
-      logger.debug('update item', response);
+      return logger.error(err);
     }
+    Object.assign(doc, req.body);
+    doc.save((err, response) => {
+      if (err) {
+        if (err.name === 'CastError') {
+          res.sendStatus(404);
+        } else if (err.name === 'ValidationError') {
+          res.sendStatus(304);
+        } else {
+          res.sendStatus(500);
+        }
+        logger.error(err);
+      } else {
+        res.json(response);
+        logger.debug('update item', response);
+      }
+    });
   });
 };
