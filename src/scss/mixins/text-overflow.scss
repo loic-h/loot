@@ -1,0 +1,14 @@
+@mixin text-overflow {
+  position: relative;
+
+  &:after {
+    content: "";
+    display: block;
+    height: 1em;
+    width: 3em;
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0), $white);
+    right: 0;
+  }
+}

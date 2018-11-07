@@ -1,9 +1,13 @@
+@import "./mixins/clearfix";
+@import "./mixins/text-overflow";
+
 @import "./system/colors";
 @import "./system/spacing";
 @import "./system/typography";
 @import "./system/container";
 @import "./system/main";
 @import "./system/reset";
+@import "./system/media";
 
 @import "./blocks/header";
 @import "./blocks/looter";

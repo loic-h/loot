@@ -19,8 +19,10 @@ function getMetas(url) {
         const metas = {
           url,
           title: res.data.ogTitle,
-          description: res.data.ogDescription
+          description: res.data.ogDescription,
+          image: res.data.ogImage.url
         };
+        console.log(metas)
         resolve(metas);
       }
     });

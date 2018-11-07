@@ -37,7 +37,8 @@ const Post = ({
             className="post__url-card"
             url={body.metas.url}
             title={body.metas.title}
-            description={body.metas.description} />
+            description={body.metas.description}
+            image={body.metas.image} />
         ) }
       </div>
       <div className="post__footer">

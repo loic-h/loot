@@ -5,15 +5,25 @@
 
   &__container {
     background: $white;
-    padding: $base;
+    padding: $base/2;
     overflow: auto;
+
+    @include media(min-width, m) {
+      padding: $base;
+    }
   }
 
   &__content {
-    font-size: $font-size-content;
-    margin-top: $base * 1.5;
-    padding-left: $base;
-    padding-right: $base;
+    font-size: $font-size-base;
+    margin-top: $base*1.5;
+    padding-left: $base/2;
+    padding-right: $base/2;
+
+    @include media(min-width, m) {
+      padding-left: $base;
+      padding-right: $base;
+      font-size: $font-size-content;
+    }
 
     &--editable {
       background: rgba($main-color, 0.1);

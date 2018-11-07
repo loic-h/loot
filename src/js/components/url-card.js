@@ -6,6 +6,7 @@ const UrlCard = ({
   title,
   description,
   url,
+  image,
   className
 }) => (
   <div className={classnames({
@@ -13,16 +14,23 @@ const UrlCard = ({
       [className]: className
     })}>
     <a className="url-card__link" href={url} target="blank">
-      { title && (
-        <div className="url-card__title">
-          { title }
-        </div>
+      { image && (
+        <figure className="url-card__figure">
+          <img className="url-card__image" src={ image } alt={ title }/>
+        </figure>
       ) }
-      { description && (
-        <div className="url-card__description">
-          { description }
-        </div>
-      ) }
+      <div className="url-card__content">
+        { title && (
+          <div className="url-card__title">
+            { title }
+          </div>
+        ) }
+        { description && (
+          <div className="url-card__description">
+            { description }
+          </div>
+        ) }
+      </div>
     </a>
   </div>
 );

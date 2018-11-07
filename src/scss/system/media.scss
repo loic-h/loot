@@ -1,0 +1,49 @@
+$breakpoints: (
+  xs: 320px,
+  s: 416px,
+  m: 768px,
+  l: 1024px
+);
+
+@function breakpoint($size) {
+  @return map-get($breakpoints, $size);
+}
+
+@function _media_render_query($feature, $break) {
+  $size: breakpoint($break);
+  // The max-width property is always exclusive to prevent conflict between declarations
+  @if $feature == max-width {
+    $size: $size - 1;
+  }
+  @return "(#{$feature}: #{$size})";
+}
+
+@mixin media($feature, $break: null, $precision: null) {
+  // When we loop into breaks map, the min-width should start at 0
+  @if $feature == min-width and $break == xs {
+
+    @content;
+
+  } @else {
+
+    $query: "";
+
+    @if type-of($feature) == "map" {
+      @each $w, $v in $feature {
+        $op: "";
+        @if ( $query != "" ) {
+          $op: " and ";
+        }
+        $query: $query + $op + "#{_media_render_query($w, $v)}";
+      }
+    } @else {
+      $query: _media_render_query($feature, $break)
+    }
+
+
+    @media #{$query} {
+      @content;
+    }
+
+  }
+}

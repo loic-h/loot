@@ -1,21 +1,60 @@
 .url-card {
+  $height: calc(#{$base} * 3 + 4em);
+
+  margin: $base/2;
+  margin-bottom: 0;
   border: solid 1px $grey-mid;
   font-size: $font-size-small;
-  margin-top: $base;
   cursor: pointer;
 
+  @include media(min-width, m) {
+    margin: $base;
+    margin-bottom: 0;
+  }
+
   &__link {
-    display: block;
-    padding: $base;
+    @include clearfix;
     text-decoration: none;
   }
 
+  &__figure {
+    max-height: $height;
+    max-width: $height;
+    flex-shrink: 0;
+    float: left;
+    margin-right: $base;
+
+    @include media(max-width, s) {
+      display: none;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  &__content {
+    padding: $base;
+    box-sizing: border-box;
+  }
+
   &__title {
+    @include text-overflow;
     font-weight: bold;
     margin-bottom: $base/2;
+    max-height: calc(2em*#{$line-height});
+    overflow: hidden;
   }
 
   &__description {
+    @include text-overflow;
     color: $grey;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: calc(3em*#{$line-height});
+    overflow: hidden;
   }
 }
