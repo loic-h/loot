@@ -21,7 +21,12 @@
     width: 100%;
   }
 
+  > div {
+    display: block !important;
+  }
+
   svg {
+    display: block !important;
     position: relative;
     z-index: 1;
   }

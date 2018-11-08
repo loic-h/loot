@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ControlListComponent from '../components/control-list';
-import { moreHorizontal, trash2, edit2, x, check } from 'react-icons-kit/feather/';
+import { moreHorizontal, trash2, edit2, x, check, image } from 'react-icons-kit/feather/';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
 
 
@@ -27,11 +27,6 @@ class PostControls extends React.Component {
         id: edit2,
         onClick: () => this.props.selectPostControls('edit')
       },
-      delete: {
-        label: "delete",
-        id: trash2,
-        onClick: () => this.props.selectPostControls('delete')
-      },
       deleteSelected: {
         label: "delete-selected",
         id: trash2,
@@ -42,16 +37,26 @@ class PostControls extends React.Component {
           this.props.togglePostControls(false);
         }
       },
-      editSelected: {
-        label: "edit-selected",
-        id: edit2,
+      delete: {
+        label: "delete",
+        id: trash2,
+        onClick: () => this.props.selectPostControls('delete')
+      },
+      upload: {
+        label: "upload",
+        id: image,
+        onClick: () => this.props.selectPostControls('upload')
+      },
+      uploadSelected: {
+        label: "upload-selected",
+        id: image,
         active: true,
         hover: x,
         onClick: () => {
           this.props.selectPostControls(false);
           this.props.togglePostControls(false);
         }
-      }
+      },
     }
   }
 
@@ -63,8 +68,11 @@ class PostControls extends React.Component {
     else if (this.props.isEditSelected) {
       controls = ["editSelected"];
     }
+    else if (this.props.isUploadSelected) {
+      controls = ["uploadSelected"];
+    }
     else if (this.props.isOpened) {
-      controls = ["edit", "delete", "close"];
+      controls = ["upload", "edit", "delete", "close"];
     }
     else {
       controls = ["more"];
@@ -92,7 +100,8 @@ const mapStateToProps = (state, props) => {
     isOpened: state.postControls.opened.indexOf(props.id) >= 0,
     selectedControl: state.postControls.selectedControls[props.id],
     isDeleteSelected: state.postControls.selectedControls[props.id] === 'delete',
-    isEditSelected: state.postControls.selectedControls[props.id] === 'edit'
+    isEditSelected: state.postControls.selectedControls[props.id] === 'edit',
+    isUploadSelected: state.postControls.selectedControls[props.id] === 'upload'
   }
 };
 
