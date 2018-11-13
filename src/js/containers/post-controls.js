@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ControlListComponent from '../components/control-list';
-import { moreHorizontal, trash2, edit2, x, check, image } from 'react-icons-kit/feather/';
+import { moreHorizontal, trash2, edit2, x, check } from 'react-icons-kit/feather/';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
 
 
@@ -13,50 +13,45 @@ class PostControls extends React.Component {
 
     this.controls = {
       more: {
-        label: "open",
-        id: moreHorizontal,
+        id: "open",
+        iconDefault: moreHorizontal,
         onClick: () => this.props.togglePostControls(!this.props.isOpened)
       },
       close: {
-        label: "close",
-        id: x,
+        id: "close",
+        iconDefault: x,
         onClick: () => this.props.togglePostControls(!this.props.isOpened)
       },
       edit: {
-        label: "edit",
-        id: edit2,
+        id: "edit",
+        iconDefault: edit2,
         onClick: () => this.props.selectPostControls('edit')
       },
-      deleteSelected: {
-        label: "delete-selected",
-        id: trash2,
+      editSelected: {
+        id: "edit-selected",
+        iconDefault: edit2,
         active: true,
-        hover: x,
+        iconHover: x,
+        onClick: () => {
+          this.props.selectPostControls(false);
+          this.props.togglePostControls(false);
+        }
+      },
+      deleteSelected: {
+        id: "delete-selected",
+        iconDefault: trash2,
+        active: true,
+        iconHover: x,
         onClick: () => {
           this.props.selectPostControls(false);
           this.props.togglePostControls(false);
         }
       },
       delete: {
-        label: "delete",
-        id: trash2,
+        id: "delete",
+        iconDefault: trash2,
         onClick: () => this.props.selectPostControls('delete')
-      },
-      upload: {
-        label: "upload",
-        id: image,
-        onClick: () => this.props.selectPostControls('upload')
-      },
-      uploadSelected: {
-        label: "upload-selected",
-        id: image,
-        active: true,
-        hover: x,
-        onClick: () => {
-          this.props.selectPostControls(false);
-          this.props.togglePostControls(false);
-        }
-      },
+      }
     }
   }
 
@@ -68,11 +63,8 @@ class PostControls extends React.Component {
     else if (this.props.isEditSelected) {
       controls = ["editSelected"];
     }
-    else if (this.props.isUploadSelected) {
-      controls = ["uploadSelected"];
-    }
     else if (this.props.isOpened) {
-      controls = ["upload", "edit", "delete", "close"];
+      controls = ["edit", "delete", "close"];
     }
     else {
       controls = ["more"];
@@ -100,8 +92,7 @@ const mapStateToProps = (state, props) => {
     isOpened: state.postControls.opened.indexOf(props.id) >= 0,
     selectedControl: state.postControls.selectedControls[props.id],
     isDeleteSelected: state.postControls.selectedControls[props.id] === 'delete',
-    isEditSelected: state.postControls.selectedControls[props.id] === 'edit',
-    isUploadSelected: state.postControls.selectedControls[props.id] === 'upload'
+    isEditSelected: state.postControls.selectedControls[props.id] === 'edit'
   }
 };
 

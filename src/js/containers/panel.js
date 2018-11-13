@@ -5,6 +5,7 @@ import { deletePost, updatePost, mockPost } from '../actions/post';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
 import { fetchThread } from '../actions/thread';
 import PanelConfirm from '../components/panel-confirm';
+import PanelConfirmEdit from '../components/panel-confirm-edit';
 
 class Panel extends React.Component {
 
@@ -20,8 +21,9 @@ class Panel extends React.Component {
         }
       },
       edit: {
-        component: PanelConfirm,
+        component: PanelConfirmEdit,
         props: {
+          postId: this.props.id,
           label: "Save?",
           onConfirm: () => {
             this.props.updatePost(this.props.mockedBody)
@@ -34,9 +36,20 @@ class Panel extends React.Component {
           onCancel: () => {
             this.props.resetPost();
             this.props.hideControls();
+          },
+          onUploadClick: () => {
+            console.log("upload");
           }
         }
-      }
+      },
+      delete: {
+        component: PanelConfirm,
+        props: {
+          label: "Save?",
+          onConfirm: () => console.log("save image"),
+          onCancel: () => this.props.hideControls()
+        }
+      },
     };
   }
 

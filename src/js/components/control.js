@@ -3,37 +3,80 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'react-icons-kit';
 
+let uniqueFileId = 0;
+
 class Control extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      icon: this.props.id
+      icon: this.props.iconDefault
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.id === "upload") {
+      uniqueFileId++;
+    }
+  }
+
+  onClick() {
+    if (this.props.onClick) {
+      this.props.onClick();
     }
   }
 
   onMouseOver() {
-    if (this.props.hover) {
-      this.setState({ icon: this.props.hover });
+    if (this.props.iconHover) {
+      this.setState({ icon: this.props.iconHover });
     }
   }
 
   onMouseLeave() {
-    if (this.props.hover) {
-      this.setState({ icon: this.props.id });
+    if (this.props.iconHover) {
+      this.setState({ icon: this.props.iconDefault });
+    }
+  }
+
+  onChange() {
+    if (this.props.onChange) {
+      this.props.onChange();
     }
   }
 
   render() {
     const classes = {
       'control': true,
-      'is-active': this.props.active
+      'is-active': this.props.active,
+      [`control--${this.props.id}`]: true
     };
     this.props.modifiers.forEach(modifier => classes[`control--${modifier}`] = true);
+    if (this.props.id === "upload") {
+      return (
+        <div
+          className={classnames(classes)}
+          onClick={ () => this.onClick() }
+          onMouseOver={ () => this.onMouseOver() }
+          onMouseLeave={ () => this.onMouseLeave() }
+        >
+          <div className="control__input control__input--file">
+            <label
+              htmlFor={`file_${uniqueFileId}`}
+            >
+              <Icon icon={ this.state.icon } />
+            </label>
+            <input
+              id={`file_${uniqueFileId}`}
+              type="file"
+              onChange={ () => this.props.onChange() } />
+          </div>
+        </div>
+      );
+    }
     return (
       <button
         className={classnames(classes)}
-        onClick={ () => this.props.onClick() }
+        onClick={ () => this.onClick() }
         onMouseOver={ () => this.onMouseOver() }
         onMouseLeave={ () => this.onMouseLeave() }
       >
@@ -44,8 +87,9 @@ class Control extends React.Component {
 }
 
 Control.propTypes = {
-  id: PropTypes.object, // svg icon
-  hover: PropTypes.object, // svg icon
+  id: PropTypes.string,
+  iconDefault: PropTypes.object, // svg icon
+  iconHover: PropTypes.object, // svg icon
   label: PropTypes.string,
   modifiers: PropTypes.array,
   active: PropTypes.bool,
