@@ -41,15 +41,7 @@ class Panel extends React.Component {
             console.log("upload");
           }
         }
-      },
-      delete: {
-        component: PanelConfirm,
-        props: {
-          label: "Save?",
-          onConfirm: () => console.log("save image"),
-          onCancel: () => this.props.hideControls()
-        }
-      },
+      }
     };
   }
 
