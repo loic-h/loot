@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from 'react-icons-kit';
-
-let uniqueFileId = 0;
+import InputFile from './input-file';
 
 class Control extends React.Component {
 
@@ -11,12 +10,6 @@ class Control extends React.Component {
     super(props);
     this.state = {
       icon: this.props.iconDefault
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.id === "upload") {
-      uniqueFileId++;
     }
   }
 
@@ -38,7 +31,7 @@ class Control extends React.Component {
     }
   }
 
-  onChange() {
+  onFileChange(file) {
     if (this.props.onChange) {
       this.props.onChange();
     }
@@ -59,17 +52,12 @@ class Control extends React.Component {
           onMouseOver={ () => this.onMouseOver() }
           onMouseLeave={ () => this.onMouseLeave() }
         >
-          <div className="control__input control__input--file">
-            <label
-              htmlFor={`file_${uniqueFileId}`}
-            >
-              <Icon icon={ this.state.icon } />
-            </label>
-            <input
-              id={`file_${uniqueFileId}`}
-              type="file"
-              onChange={ () => this.props.onChange() } />
-          </div>
+          <InputFile
+            className="control__input control__input--file"
+            onChange={file => onFileChange(file)}
+          >
+            <Icon icon={ this.state.icon } />
+          </InputFile>
         </div>
       );
     }
