@@ -31,7 +31,8 @@ class Control extends React.Component {
     }
   }
 
-  onFileChange(file) {
+  onFileChange(file, thumb) {
+    console.log(file, thumb);
     if (this.props.onChange) {
       this.props.onChange();
     }
@@ -54,7 +55,7 @@ class Control extends React.Component {
         >
           <InputFile
             className="control__input control__input--file"
-            onChange={file => onFileChange(file)}
+            onChange={(file, thumb) => this.onFileChange(file, thumb)}
           >
             <Icon icon={ this.state.icon } />
           </InputFile>

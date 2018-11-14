@@ -11,10 +11,21 @@ class InputFile extends React.Component {
     uniqueFileId++;
   }
 
-  onChange() {
-    if (this.props.onChange) {
-      this.props.onChange();
+  onChange(e) {
+    const file = e.target.files[0];
+
+    if (file['type'].indexOf('image') < 0) {
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const thumb = reader.result;
+      if (this.props.onChange) {
+        this.props.onChange(file, thumb);
+      }
+    };
+    reader.readAsDataURL(file);
   }
 
   render() {
@@ -31,7 +42,7 @@ class InputFile extends React.Component {
         <input
           id={`file_${uniqueFileId}`}
           type="file"
-          onChange={ () => this.onChange() } />
+          onChange={ e => this.onChange(e) } />
       </div>
     );
   }
