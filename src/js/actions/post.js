@@ -7,9 +7,9 @@ export const IS_POST_DELETING = "IS_POST_DELETING";
 export const DELETE_POST_LOAD = "DELETE_POST_LOAD";
 export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 export const DELETE_POST_ERROR = "DELETE_POST_ERROR";
-export const UPDATE_POST_LOAD = "UPDATE_POST_LOAD";
-export const UPDATE_POST_SUCCESS = "UPDATE_POST_SUCCESS";
-export const UPDATE_POST_ERROR = "UPDATE_POST_ERROR";
+export const SAVE_POST_LOAD = "SAVE_POST_LOAD";
+export const SAVE_POST_SUCCESS = "SAVE_POST_SUCCESS";
+export const SAVE_POST_ERROR = "SAVE_POST_ERROR";
 export const MOCK_POST = "MOCK_POST";
 
 export const addPostLoad = () => ({
@@ -76,30 +76,30 @@ export const deletePost = id => dispatch => {
   });
 };
 
-export const updatePostLoad = () => ({
-  type: UPDATE_POST_LOAD
+export const savePostLoad = () => ({
+  type: SAVE_POST_LOAD
 });
 
-export const updatePostSuccess = id => ({
-  type: UPDATE_POST_SUCCESS,
+export const savePostSuccess = id => ({
+  type: SAVE_POST_SUCCESS,
   id
 });
 
-export const updatePostError = error => ({
-  type: UPDATE_POST_ERROR,
+export const savePostError = error => ({
+  type: SAVE_POST_ERROR,
   error
 });
 
-export const updatePost = (id, body) => dispatch => {
+export const savePost = (id, body) => dispatch => {
   return new Promise((resolve, reject) => {
-    dispatch(updatePostLoad());
+    dispatch(savePostLoad());
     api.post.update(id, body)
       .catch(err => {
-        dispatch(updatePostError(err));
+        dispatch(savePostError(err));
         reject(err);
       })
       .then(json => {
-        dispatch(updatePostSuccess(json));
+        dispatch(savePostSuccess(json));
         resolve(json);
       });
   });

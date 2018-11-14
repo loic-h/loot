@@ -5,9 +5,9 @@ import {
   DELETE_POST_LOAD,
   DELETE_POST_SUCCESS,
   DELETE_POST_ERROR,
-  UPDATE_POST_LOAD,
-  UPDATE_POST_SUCCESS,
-  UPDATE_POST_ERROR,
+  SAVE_POST_LOAD,
+  SAVE_POST_SUCCESS,
+  SAVE_POST_ERROR,
   MOCK_POST
 } from '../actions/post';
 
@@ -68,19 +68,19 @@ const post = (state = initialState, action) => {
         errorDeleting: false
       };
 
-    case UPDATE_POST_LOAD:
+    case SAVE_POST_LOAD:
       return {
         ...state,
         errorUpdating: false,
         isUpdating: true
       };
-    case UPDATE_POST_ERROR:
+    case SAVE_POST_ERROR:
       return {
         ...state,
         isUpdating: false,
         errorUpdating: true
       };
-    case UPDATE_POST_SUCCESS:
+    case SAVE_POST_SUCCESS:
       return {
         ...state,
         isUpdating: false,

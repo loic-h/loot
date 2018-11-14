@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deletePost, updatePost, mockPost } from '../actions/post';
+import { deletePost, savePost, mockPost } from '../actions/post';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
 import { fetchThread } from '../actions/thread';
 import PanelConfirm from '../components/panel-confirm';
@@ -26,7 +26,7 @@ class Panel extends React.Component {
           postId: this.props.id,
           label: "Save?",
           onConfirm: () => {
-            this.props.updatePost(this.props.mockedBody)
+            this.props.savePost(this.props.mockedBody)
               .then(() => {
                 this.props.fetchThread();
                 this.props.hideControls();
@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   deletePost: () => dispatch(deletePost(props.id)).then(id => {
     dispatch(fetchThread())
   }),
-  updatePost: body => dispatch(updatePost(props.id, body)),
+  savePost: body => dispatch(savePost(props.id, body)),
   fetchThread: () => dispatch(fetchThread()),
   resetPost: body => dispatch(mockPost(props.id)),
   hideControls: () => {
