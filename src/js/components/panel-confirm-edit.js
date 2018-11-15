@@ -7,13 +7,13 @@ const PanelConfirm = ({
   label,
   onConfirm,
   onCancel,
-  onUploadClick
+  onUploadChange
 }) => {
   const controls = {
     upload: {
       id: "upload",
       iconDefault: image,
-      onChange: onUploadClick
+      onFileChange: onUploadChange
     },
     confirm: {
       id: "confirm",

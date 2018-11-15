@@ -40,6 +40,9 @@ const Post = ({
             description={body.metas.description}
             image={body.metas.image} />
         ) }
+        { body.thumb && (
+          <img src={ body.thumb } />
+        ) }
       </div>
       <div className="post__footer">
         <PostControls id={ body._id }/>

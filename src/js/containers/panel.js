@@ -37,8 +37,12 @@ class Panel extends React.Component {
             this.props.resetPost();
             this.props.hideControls();
           },
-          onUploadClick: () => {
-            console.log("upload");
+          onUploadChange: (file, thumb) => {
+            const mockedBody = {
+              ...this.props.mockedBody,
+              thumb
+            };
+            this.props.mockPost(mockedBody);
           }
         }
       }
@@ -71,6 +75,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   savePost: body => dispatch(savePost(props.id, body)),
   fetchThread: () => dispatch(fetchThread()),
   resetPost: body => dispatch(mockPost(props.id)),
+  mockPost: body => dispatch(mockPost(props.id, body)),
   hideControls: () => {
     dispatch(togglePostControls(props.id, false));
     dispatch(selectPostControls(props.id, false));

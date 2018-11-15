@@ -10,13 +10,13 @@ const PanelConfirm = ({
 }) => {
   const controls = {
     confirm: {
-      id: check,
-      label: "confirm",
+      id: "confirm",
+      iconDefault: check,
       onClick: onConfirm
     },
     cancel: {
-      id: x,
-      label: "cancel",
+      id: "cancel",
+      iconDefault: x,
       onClick: onCancel
     }
   }

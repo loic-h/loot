@@ -31,10 +31,9 @@ class Control extends React.Component {
     }
   }
 
-  onFileChange(file, thumb) {
-    console.log(file, thumb);
-    if (this.props.onChange) {
-      this.props.onChange();
+  onFileChange(...params) {
+    if (this.props.onFileChange) {
+      this.props.onFileChange(...params);
     }
   }
 
