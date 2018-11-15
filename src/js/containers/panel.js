@@ -19,32 +19,6 @@ class Panel extends React.Component {
           onConfirm: () => this.props.deletePost(this.props.id),
           onCancel: () => this.props.hideControls()
         }
-      },
-      edit: {
-        component: PanelConfirmEdit,
-        props: {
-          postId: this.props.id,
-          label: "Save?",
-          onConfirm: () => {
-            this.props.savePost(this.props.mockedBody)
-              .then(() => {
-                this.props.fetchThread();
-                this.props.hideControls();
-                this.props.resetPost();
-            });
-          },
-          onCancel: () => {
-            this.props.resetPost();
-            this.props.hideControls();
-          },
-          onUploadChange: (file, thumb) => {
-            const mockedBody = {
-              ...this.props.mockedBody,
-              thumb
-            };
-            this.props.mockPost(mockedBody);
-          }
-        }
       }
     };
   }
@@ -63,8 +37,7 @@ class Panel extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    selectedControl: state.postControls.selectedControls[props.id],
-    mockedBody: state.post.mocked[props.id]
+    selectedControl: state.postControls.selectedControls[props.id]
   }
 };
 
@@ -72,10 +45,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   deletePost: () => dispatch(deletePost(props.id)).then(id => {
     dispatch(fetchThread())
   }),
-  savePost: body => dispatch(savePost(props.id, body)),
   fetchThread: () => dispatch(fetchThread()),
-  resetPost: body => dispatch(mockPost(props.id)),
-  mockPost: body => dispatch(mockPost(props.id, body)),
   hideControls: () => {
     dispatch(togglePostControls(props.id, false));
     dispatch(selectPostControls(props.id, false));

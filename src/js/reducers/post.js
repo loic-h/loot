@@ -7,8 +7,7 @@ import {
   DELETE_POST_ERROR,
   SAVE_POST_LOAD,
   SAVE_POST_SUCCESS,
-  SAVE_POST_ERROR,
-  MOCK_POST
+  SAVE_POST_ERROR
 } from '../actions/post';
 
 export const initialState = {
@@ -17,10 +16,7 @@ export const initialState = {
   isDeleting: false,
   errorDeleting: null,
   isUpdating: false,
-  errorUpdating: null,
-  mocked: {
-    // id: body
-  }
+  errorUpdating: null
 };
 
 const post = (state = initialState, action) => {
@@ -85,18 +81,6 @@ const post = (state = initialState, action) => {
         ...state,
         isUpdating: false,
         errorUpdating: false
-      };
-
-    case MOCK_POST:
-      const mocked = { ...state.mocked };
-      if (!action.body) {
-        delete mocked[action.id];
-      } else {
-        mocked[action.id] = { ...action.body };
-      }
-      return {
-        ...state,
-        mocked
       };
 
     default:

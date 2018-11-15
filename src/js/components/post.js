@@ -7,7 +7,11 @@ import Panel from '../containers/panel';
 import UrlCard from '../components/url-card';
 
 const Post = ({
-    body,
+    id,
+    content,
+    mappedContent,
+    metas,
+    thumb,
     isEditing,
     onMouseOver,
     onMouseOut,
@@ -30,35 +34,41 @@ const Post = ({
           textClassname="post-mark"
           onChange={value => onBodyChange('content', value)}
           autoFocus={true}
-          value={isEditing ? body.content : body.mappedContent}
+          value={isEditing ? content : mappedContent}
           edit={isEditing} />
-        { body.metas && (
+        { metas && (
           <UrlCard
             className="post__url-card"
-            url={body.metas.url}
-            title={body.metas.title}
-            description={body.metas.description}
-            image={body.metas.image} />
+            url={metas.url}
+            title={metas.title}
+            description={metas.description}
+            image={metas.image} />
         ) }
-        { body.thumb && (
-          <img src={ body.thumb } />
+        { thumb && (
+          <img src={ thumb } />
         ) }
       </div>
       <div className="post__footer">
-        <PostControls id={ body._id }/>
+        <PostControls id={ id }/>
       </div>
     </div>
     <div className="post__panel">
-      <Panel id={ body._id } />
+      <Panel id={ id } />
     </div>
   </div>
 );
 
 Post.propTypes = {
-  body: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  mappedContent: PropTypes.string.isRequired,
+  metas: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    image: PropTypes.string
   }),
+  thumb: PropTypes.string,
   isEditing: PropTypes.bool.isRequired,
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func,

@@ -10,7 +10,6 @@ export const DELETE_POST_ERROR = "DELETE_POST_ERROR";
 export const SAVE_POST_LOAD = "SAVE_POST_LOAD";
 export const SAVE_POST_SUCCESS = "SAVE_POST_SUCCESS";
 export const SAVE_POST_ERROR = "SAVE_POST_ERROR";
-export const MOCK_POST = "MOCK_POST";
 
 export const addPostLoad = () => ({
   type: ADD_POST_LOAD
@@ -104,9 +103,3 @@ export const savePost = (id, body) => dispatch => {
       });
   });
 };
-
-export const mockPost = (id, body) => ({
-  type: MOCK_POST,
-  id,
-  body
-});
