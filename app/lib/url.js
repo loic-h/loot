@@ -22,7 +22,6 @@ function getMetas(url) {
           description: res.data.ogDescription,
           image: res.data.ogImage.url
         };
-        console.log(metas)
         resolve(metas);
       }
     });

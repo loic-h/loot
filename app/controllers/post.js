@@ -56,37 +56,48 @@ exports.update = (req, res) => {
     if (err) {
       return logger.error(err);
     }
-    if (Object.keys(req.files).length > 0) {
-      console.log(req.files)
-      req.files.file.mv('files/filename.jpg', function(err) {
-        if (err) {
-          res.sendStatus(500);
-          logger.error(err);
-        } else {
-          saveDoc(doc);
-        }
+    Object.assign(doc, req.body);
+    saveFile(doc, req)
+      .then(doc => {
+        doc.save((err, response) => {
+          if (err) {
+            if (err.name === 'CastError') {
+              res.sendStatus(404);
+            } else if (err.name === 'ValidationError') {
+              res.sendStatus(304);
+            } else {
+              res.sendStatus(500);
+            }
+            logger.error(err);
+          } else {
+            res.json(response);
+            logger.debug('update item', response);
+          }
+        });
+      })
+      .catch(err => {
+        res.sendStatus(500);
+        logger.error(err);
       });
-    } else {
-      saveDoc(doc);
-    }
   });
 };
 
-const saveDoc = (doc) => {
-  Object.assign(doc, req.body);
-  doc.save((err, response) => {
-    if (err) {
-      if (err.name === 'CastError') {
-        res.sendStatus(404);
-      } else if (err.name === 'ValidationError') {
-        res.sendStatus(304);
-      } else {
-        res.sendStatus(500);
+const saveFile = (doc, req) => {
+  return new Promise((resolve, reject) => {
+    if (Object.keys(req.files).length > 0) {
+      const { name, md5, mimetype } = req.files.file;
+      if (mimetype.indexOf('image') == 0) {
+        doc.file = { hash: md5(), name };
+        req.files.file.mv(`files/${doc.file.hash}`, function(err) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(doc);
+          }
+        });
       }
-      logger.error(err);
     } else {
-      res.json(response);
-      logger.debug('update item', response);
+      resolve(doc);
     }
   });
-}
+};

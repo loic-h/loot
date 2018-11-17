@@ -15,8 +15,10 @@ const postSchema = new mongoose.Schema({
     description: String,
     image: String
   },
-  image: {
-    type: String
+  file: {
+    hash: String,
+    name: String,
+    extension: String
   },
   created_at: {
     type: Date,
@@ -34,16 +36,16 @@ postSchema.pre('save', function(next) {
 });
 
 // Save mapped content on int
-postSchema.post('init', function(doc) {
-  this.mappedContent = mapContent(doc.content);
-  const url = urlUtils.getUrls(doc.content)[0];
-  urlUtils.getMetas(url)
-    .then(metas => this.metas = metas)
-    .catch(() => this.metas = null)
-    .finally(() => {
-      this.save();
-    });
-});
+// postSchema.post('init', function(doc) {
+//   this.mappedContent = mapContent(doc.content);
+//   const url = urlUtils.getUrls(doc.content)[0];
+//   urlUtils.getMetas(url)
+//     .then(metas => this.metas = metas)
+//     .catch(() => this.metas = null)
+//     .finally(() => {
+//       this.save();
+//     });
+// });
 
 function mapContent(content) {
   content = urlUtils.mapUrls(content);
