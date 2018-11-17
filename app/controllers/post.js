@@ -1,5 +1,8 @@
 const log4js = require('log4js');
+const path = require('path');
 const Post = require('../models/post');
+const config = require('../../config');
+const makeThumbs = require('../lib/thumbs');
 
 const logger = log4js.getLogger('controllers:post');
 
@@ -51,34 +54,33 @@ exports.delete = (req, res) => {
   });
 };
 
-exports.update = (req, res) => {
-  Post.findById(req.params.id, (err, doc) => {
+exports.update = async (req, res) => {
+  Post.findById(req.params.id, async (err, doc) => {
     if (err) {
       return logger.error(err);
     }
     Object.assign(doc, req.body);
-    saveFile(doc, req)
-      .then(doc => {
-        doc.save((err, response) => {
-          if (err) {
-            if (err.name === 'CastError') {
-              res.sendStatus(404);
-            } else if (err.name === 'ValidationError') {
-              res.sendStatus(304);
-            } else {
-              res.sendStatus(500);
-            }
-            logger.error(err);
-          } else {
-            res.json(response);
-            logger.debug('update item', response);
-          }
-        });
-      })
-      .catch(err => {
-        res.sendStatus(500);
+    await saveFile(doc, req);
+    doc.thumbs = await makeThumbs(doc.file.hash, doc.file.name);
+    doc.save((err, response) => {
+      if (err) {
+        if (err.name === 'CastError') {
+          res.sendStatus(404);
+        } else if (err.name === 'ValidationError') {
+          res.sendStatus(304);
+        } else {
+          res.sendStatus(500);
+        }
         logger.error(err);
-      });
+      } else {
+        res.json(response);
+        logger.debug('update item', response);
+      }
+    });
+  })
+  .catch(err => {
+    res.sendStatus(500);
+    logger.error(err);
   });
 };
 
@@ -88,7 +90,7 @@ const saveFile = (doc, req) => {
       const { name, md5, mimetype } = req.files.file;
       if (mimetype.indexOf('image') == 0) {
         doc.file = { hash: md5(), name };
-        req.files.file.mv(`files/${doc.file.hash}`, function(err) {
+        req.files.file.mv(path.join(config.path.files, doc.file.hash), err => {
           if (err) {
             reject(err);
           } else {
