@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const log4js = require('log4js');
 const bodyParser = require('body-parser');
 const config = require('../config');
+const fileUpload = require('express-fileupload');
 
 const routeApi = require('./routes/api');
 const routeFront = require('./routes/front');
@@ -15,6 +16,7 @@ const baseURL = config.BASE || `${config.PROTOCOL}://${config.HOST}:${config.POS
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 app.use('/api', routeApi);
 
 app.set('view engine', 'pug');

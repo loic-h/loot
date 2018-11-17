@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ControlListComponent from '../components/control-list';
-import { moreHorizontal, trash2, edit2, x, check } from 'react-icons-kit/feather/';
+import { moreHorizontal, trash2, edit2, x, check, image } from 'react-icons-kit/feather/';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
-
+import { savePost } from '../actions/post';
 
 class PostControls extends React.Component {
 
@@ -13,22 +13,22 @@ class PostControls extends React.Component {
 
     this.controls = {
       more: {
-        id: "open",
+        id: 'open',
         iconDefault: moreHorizontal,
         onClick: () => this.props.togglePostControls(!this.props.isOpened)
       },
       close: {
-        id: "close",
+        id: 'close',
         iconDefault: x,
         onClick: () => this.props.togglePostControls(!this.props.isOpened)
       },
       edit: {
-        id: "edit",
+        id: 'edit',
         iconDefault: edit2,
         onClick: () => this.props.selectPostControls('edit')
       },
       editSelected: {
-        id: "edit-selected",
+        id: 'edit-selected',
         iconDefault: edit2,
         active: true,
         iconHover: x,
@@ -38,7 +38,7 @@ class PostControls extends React.Component {
         }
       },
       deleteSelected: {
-        id: "delete-selected",
+        id: 'delete-selected',
         iconDefault: trash2,
         active: true,
         iconHover: x,
@@ -48,9 +48,14 @@ class PostControls extends React.Component {
         }
       },
       delete: {
-        id: "delete",
+        id: 'delete',
         iconDefault: trash2,
         onClick: () => this.props.selectPostControls('delete')
+      },
+      upload: {
+        id: 'upload',
+        iconDefault: image,
+        onFileChange: file => this.props.saveFile(file)
       }
     }
   }
@@ -58,16 +63,16 @@ class PostControls extends React.Component {
   getControls() {
     let controls;
     if (this.props.isDeleteSelected) {
-      controls = ["deleteSelected"];
+      controls = ['deleteSelected'];
     }
     else if (this.props.isEditSelected) {
-      controls = ["editSelected"];
+      controls = ['editSelected'];
     }
     else if (this.props.isOpened) {
-      controls = ["edit", "delete", "close"];
+      controls = ['upload', 'edit', 'delete', 'close'];
     }
     else {
-      controls = ["more"];
+      controls = ['more'];
     }
     return this.getControlsFromKeys(controls);
   }
@@ -98,7 +103,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch, props) => ({
   togglePostControls: toggle => dispatch(togglePostControls(props.id, toggle)),
-  selectPostControls: action => dispatch(selectPostControls(props.id, action))
+  selectPostControls: action => dispatch(selectPostControls(props.id, action)),
+  saveFile: file => dispatch(savePost(props.id, { file }))
 });
 
 PostControls.propTypes = {

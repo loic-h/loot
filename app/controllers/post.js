@@ -56,21 +56,37 @@ exports.update = (req, res) => {
     if (err) {
       return logger.error(err);
     }
-    Object.assign(doc, req.body);
-    doc.save((err, response) => {
-      if (err) {
-        if (err.name === 'CastError') {
-          res.sendStatus(404);
-        } else if (err.name === 'ValidationError') {
-          res.sendStatus(304);
-        } else {
+    if (Object.keys(req.files).length > 0) {
+      console.log(req.files)
+      req.files.file.mv('files/filename.jpg', function(err) {
+        if (err) {
           res.sendStatus(500);
+          logger.error(err);
+        } else {
+          saveDoc(doc);
         }
-        logger.error(err);
-      } else {
-        res.json(response);
-        logger.debug('update item', response);
-      }
-    });
+      });
+    } else {
+      saveDoc(doc);
+    }
   });
 };
+
+const saveDoc = (doc) => {
+  Object.assign(doc, req.body);
+  doc.save((err, response) => {
+    if (err) {
+      if (err.name === 'CastError') {
+        res.sendStatus(404);
+      } else if (err.name === 'ValidationError') {
+        res.sendStatus(304);
+      } else {
+        res.sendStatus(500);
+      }
+      logger.error(err);
+    } else {
+      res.json(response);
+      logger.debug('update item', response);
+    }
+  });
+}

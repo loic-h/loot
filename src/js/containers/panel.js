@@ -5,7 +5,6 @@ import { deletePost, savePost, mockPost } from '../actions/post';
 import { togglePostControls, selectPostControls } from '../actions/post-controls';
 import { fetchThread } from '../actions/thread';
 import PanelConfirm from '../components/panel-confirm';
-import PanelConfirmEdit from '../components/panel-confirm-edit';
 
 class Panel extends React.Component {
 

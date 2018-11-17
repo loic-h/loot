@@ -5,3 +5,5 @@ config/config.development.js
 log/
 
 static/
+
+files/

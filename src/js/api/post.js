@@ -50,10 +50,13 @@ export default {
 
   update: (id, body, base = '') => {
     return new Promise((resolve, reject) => {
+      const data = new FormData();
+      for (let k of Object.keys(body)) {
+        data.append(k, body[k] ? body[k] : '');
+      }
       const request = {
         method: 'PATCH',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' }
+        body: data
       };
       fetch(`${base}/api/post/${id}`, request)
         .catch(err => reject(err))
@@ -66,4 +69,4 @@ export default {
         .then(json => resolve(json));
     });
   }
-}
+};
