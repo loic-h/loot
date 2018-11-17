@@ -1,5 +1,6 @@
 const log4js = require('log4js');
 const path = require('path');
+const fs = require('fs');
 const Post = require('../models/post');
 const config = require('../../config');
 const makeThumbs = require('../lib/thumbs');
@@ -60,8 +61,11 @@ exports.update = async (req, res) => {
       return logger.error(err);
     }
     Object.assign(doc, req.body);
-    await saveFile(doc, req);
-    doc.thumbs = await makeThumbs(doc.file.hash, doc.file.name);
+    const infos = await saveFile(req.files);
+    if (infos) {
+      doc.files = infos;
+      doc.thumbs = await makeThumbs(doc.file.hash, doc.file.name);
+    }
     doc.save((err, response) => {
       if (err) {
         if (err.name === 'CastError') {
@@ -84,22 +88,31 @@ exports.update = async (req, res) => {
   });
 };
 
-const saveFile = (doc, req) => {
+const saveFile = files => {
   return new Promise((resolve, reject) => {
-    if (Object.keys(req.files).length > 0) {
-      const { name, md5, mimetype } = req.files.file;
-      if (mimetype.indexOf('image') == 0) {
-        doc.file = { hash: md5(), name };
-        req.files.file.mv(path.join(config.path.files, doc.file.hash), err => {
+    if (Object.keys(files).length > 0) {
+      const { name, md5, mimetype } = files.file;
+      const infos = { hash: md5(), name };
+      if (mimetype.indexOf('image') !== 0) {
+        reject(new Error("Wrong file type"));
+      } else {
+        const filepath = path.join(config.path.files, infos.hash);
+        fs.access(filepath, fs.constants.F_OK, err => {
           if (err) {
-            reject(err);
+            files.file.mv(filepath, err => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(infos);
+              }
+            });
           } else {
             resolve(doc);
           }
         });
       }
     } else {
-      resolve(doc);
+      reject(null);
     }
   });
 };
