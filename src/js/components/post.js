@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Textarea from './textarea';
+import { Icon } from 'react-icons-kit';
+import { trash2 } from 'react-icons-kit/feather/';
 import PostControls from '../containers/post-controls';
 import Panel from '../containers/panel';
 import UrlCard from '../components/url-card';
@@ -15,7 +17,8 @@ const Post = ({
     isEditing,
     onMouseOver,
     onMouseOut,
-    onBodyChange
+    onBodyChange,
+    onDeleteThumbClick
   }) => (
   <div
     className={classnames({
@@ -27,9 +30,19 @@ const Post = ({
     <div className="post__container">
       <div className="post__body">
         { thumb && (
-          <img
-            className="post__image"
-            src={ thumb } />
+          <div className="post__thumb">
+            <img
+              className="post__image"
+              src={ thumb } />
+            { isEditing && (
+              <button
+                className="post__delete-thumb"
+                onClick={ onDeleteThumbClick }
+              >
+                <Icon icon={ trash2 } />
+              </button>
+            ) }
+          </div>
         ) }
         <Textarea
           className={classnames({

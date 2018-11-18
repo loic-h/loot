@@ -60,11 +60,15 @@ exports.update = async (req, res) => {
     if (err) {
       return logger.error(err);
     }
-    Object.assign(doc, req.body);
-    if (Object.keys(req.files).length > 0) {
-      doc.file = await saveFile(req.files);
-      doc.thumbs = await makeThumbs(doc.file.hash, doc.file.name);
+    const body = req.body;
+    if (req.files && Object.keys(req.files).length > 0) {
+      body.file = await saveFile(req.files);
+      body.thumbs = await makeThumbs(doc.file.hash, doc.file.name);
+    } else if (body.file === 'null') {
+      body.file = null;
+      body.thumbs = null;
     }
+    Object.assign(doc, body);
     doc.save((err, response) => {
       if (err) {
         if (err.name === 'CastError') {

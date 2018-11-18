@@ -52,7 +52,7 @@ export default {
     return new Promise((resolve, reject) => {
       const data = new FormData();
       for (let k of Object.keys(body)) {
-        data.append(k, body[k] ? body[k] : '');
+        data.append(k, body[k]);
       }
       const request = {
         method: 'PATCH',

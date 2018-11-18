@@ -14,8 +14,11 @@ class Post extends React.Component {
   }
 
   onBodyChange(key, value) {
-    this.props.updatePost(key, value);
     this.props.savePost(key, value);
+  }
+
+  onDeleteThumbClick() {
+    this.props.savePost("file", null);
   }
 
   render() {
@@ -28,7 +31,8 @@ class Post extends React.Component {
         thumb={ this.props.body.thumbs && this.props.body.thumbs.desktop }
         content={ this.props.body.content }
         isEditing={ this.props.isEditing }
-        onBodyChange={ (key, value) => this.onBodyChange(key, value) } />
+        onBodyChange={ (key, value) => this.onBodyChange(key, value) }
+        onDeleteThumbClick={ () => this.onDeleteThumbClick() } />
     );
   }
 }
@@ -49,8 +53,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  savePost: (key, value) => dispatch(savePost(props.body._id, { [key]: value })),
-  updatePost: (key, value) => dispatch(updatePosts([{ ...props.body, [key]: value }]))
+  savePost: (key, value) => dispatch(savePost(props.body._id, { [key]: value }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);
