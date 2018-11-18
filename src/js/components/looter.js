@@ -23,7 +23,7 @@ const Looter = ({
         <Textarea
           className="looter__input looter__bordered-input"
           placeholder="Add, Search, #Filter..."
-          onBlur={e => onInputBlur(e)}
+          onBlur={value => onInputBlur(value)}
           onChange={value => onInputChange(value)}
           value={value}
           edit={true} />

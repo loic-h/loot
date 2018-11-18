@@ -11,8 +11,8 @@ class Looter extends React.Component {
     this.props.focusLooter();
   }
 
-  onInputBlur() {
-    if (this.props.value === "") {
+  onInputBlur(value) {
+    if (value === "") {
       this.props.blurLooter();
     }
   }
@@ -28,7 +28,7 @@ class Looter extends React.Component {
         value={this.props.value}
         focused={this.props.focus}
         onPlaceholderClick={() => this.onPlaceholderClick()}
-        onInputBlur={() => this.onInputBlur()}
+        onInputBlur={value => this.onInputBlur(value)}
         onInputChange={value => this.onInputChange(value)}
         onSubmitClick={value => this.onSubmitClick(value)} />
     )

@@ -1,62 +1,74 @@
 import React from 'react';
 import classnames from 'classnames';
+import { Editor, EditorState, convertToRaw, ContentState, convertFromHTML, CompositeDecorator } from 'draft-js';
+import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
 
 export default class Text extends React.Component {
 
   constructor(props) {
     super(props);
+    this.decorator = new CompositeDecorator([
+      {
+       strategy: findLinkEntities,
+       component: Link,
+      }
+    ]);
     this.state = {
-      height: '1em',
-      focus: false
+      editorState: this.getStateFromHtml(props.value)
     };
-    this.onChange = this.onChange.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.remove = this.remove.bind(this);
   }
 
   componentDidMount() {
     if (this.props.edit) {
-      this.setInputHeight();
       this.input.focus();
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.edit && (!prevProps.edit || prevProps.value !== this.props.value)) {
-      this.setInputHeight();
-    }
-
-    if (this.input && this.props.edit && !prevProps.edit) {
-      this.input.focus();
+    if (prevProps.value !== this.props.value || (!prevProps.edit && this.props.edit)) {
+      let editorState = this.getStateFromHtml(this.props.value);
+      editorState = EditorState.moveFocusToEnd(editorState);
+      this.setState({ editorState });
     }
   }
 
-  setInputHeight() {
-    if (this.props.edit) {
-      this.input.style.height = `${this.ghost.clientHeight}px`;
+
+  onChange(editorState) {
+    if (this.state.editorState && this.state.editorState.getCurrentContent() !== editorState.getCurrentContent()) {
+      this.setState({editorState});
+      this.props.onChange(this.getText(editorState));
     }
-  }
-
-  getGhostValue(value) {
-    value = value && value !== '' ? value : ' ';
-    return value.replace(/\r?\n$/g,'<br/>&nbsp;');
-  }
-
-  onChange(event) {
-    this.props.onChange(event.target.value);
   }
 
   onFocus() {
-    this.setState({focus: true});
+    if (this.props.onFocus) {
+      this.props.onFocus(this.getText(this.state.editorState));
+    }
   }
 
   onBlur() {
-    this.setState({focus: false});
+    if (this.props.onBlur) {
+      this.props.onBlur(this.getText(this.state.editorState));
+    }
   }
 
-  remove() {
-    this.props.remove(this.props.name);
+  getText(state) {
+    const blocks = convertToRaw(state.getCurrentContent()).blocks;
+    const text = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
+    return text.trim();
+  }
+
+  getStateFromHtml(content) {
+    if (content === "") {
+      return EditorState.createEmpty();
+    }
+    let editorState;
+    const blocksFromHTML = convertFromHTML(content);
+    const contentState = ContentState.createFromBlockArray(
+      blocksFromHTML.contentBlocks,
+      blocksFromHTML.entityMap
+    );
+    return EditorState.createWithContent(contentState, this.decorator);
   }
 
   render() {
@@ -67,25 +79,12 @@ export default class Text extends React.Component {
         'textarea--focus': this.state.focus,
         [this.props.className]: this.props.className
       })}>
-        {this.props.edit ? (
-          <div className="textarea__content textarea__content--input">
-            <textarea
-              className="textarea__input"
-              {...this.props.attr}
-              ref={el => this.input = el}
-              name={this.props.name}
-              value={this.props.value}
-              onChange={event => this.onChange(event)}
-              onFocus={this.onFocus}
-              onBlur={this.onBlur}
-              placeholder={this.props.placeholder} />
-            <div
-              ref={el => this.ghost = el}
-              className="textarea__ghost"
-              contentEditable="true"
-              dangerouslySetInnerHTML={{__html: this.getGhostValue(this.props.value)}}>
-            </div>
-          </div>
+        { this.props.edit ? (
+          <Editor
+            ref={ el => this.input = el }
+            editorState={ this.state.editorState }
+            onChange={ state => this.onChange(state) }
+            onBlur={ e => this.onBlur(e) } />
         ) : (
           <div className="textarea__content textarea__content--display">
             {this.props.render ? this.props.render(this.props.value) : (
@@ -94,8 +93,29 @@ export default class Text extends React.Component {
               })} dangerouslySetInnerHTML={{__html: this.props.value}} />
             )}
           </div>
-        )}
+        ) }
       </div>
     );
   }
 }
+
+const findLinkEntities = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges(
+    (character) => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        contentState.getEntity(entityKey).getType() === 'LINK'
+      );
+    },
+    callback
+  );
+}
+const Link = (props) => {
+  const {url} = props.contentState.getEntity(props.entityKey).getData();
+  return (
+    <a href={url}>
+      {props.children}
+    </a>
+  );
+};

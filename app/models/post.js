@@ -33,6 +33,7 @@ const postSchema = new mongoose.Schema({
 });
 
 postSchema.pre('save', function(next) {
+  console.log("yo", this.isModified('file'), typeof this.file);
   this.mappedContent = mapContent(this.content);
   const url = urlUtils.getUrls(this.content)[0];
   if (this.isModified('content')) {

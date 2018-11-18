@@ -8,13 +8,19 @@ class Post extends React.Component {
 
   constructor(props) {
     super(props);
+    this.keyTimeout = null;
     this.state = {
       showActions: false
     }
   }
 
   onBodyChange(key, value) {
-    this.props.savePost(key, value);
+    if (this.keyTimeout) {
+      clearTimeout(this.keyTimeout);
+    }
+    this.keyTimeout = setTimeout(() => {
+      this.props.savePost(key, value);
+    }, 1000);
   }
 
   onDeleteThumbClick() {
@@ -25,11 +31,9 @@ class Post extends React.Component {
     return (
       <PostComponent
         id={ this.props.body._id }
-        content={ this.props.body.content }
-        mappedContent={ this.props.body.mappedContent }
+        content={ this.props.body.mappedContent }
         metas={ this.props.body.metas }
         thumb={ this.props.body.thumbs && this.props.body.thumbs.desktop }
-        content={ this.props.body.content }
         isEditing={ this.props.isEditing }
         onBodyChange={ (key, value) => this.onBodyChange(key, value) }
         onDeleteThumbClick={ () => this.onDeleteThumbClick() } />

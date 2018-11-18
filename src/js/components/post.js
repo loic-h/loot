@@ -52,7 +52,7 @@ const Post = ({
           textClassname="post-mark"
           onChange={value => onBodyChange('content', value)}
           autoFocus={true}
-          value={isEditing ? content : mappedContent}
+          value={content}
           edit={isEditing} />
         { metas && (
           <UrlCard
@@ -76,7 +76,6 @@ const Post = ({
 Post.propTypes = {
   id: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  mappedContent: PropTypes.string.isRequired,
   metas: PropTypes.shape({
     url: PropTypes.string,
     title: PropTypes.string,
