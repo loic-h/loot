@@ -47,7 +47,7 @@ const Post = ({
             url={metas.url}
             title={metas.title}
             description={metas.description}
-            image={metas.image} />
+            image={!thumb && metas.image} />
         ) }
       </div>
       <div className="post__footer">
