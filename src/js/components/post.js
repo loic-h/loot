@@ -26,6 +26,11 @@ const Post = ({
   >
     <div className="post__container">
       <div className="post__body">
+        { thumb && (
+          <img
+            className="post__image"
+            src={ thumb } />
+        ) }
         <Textarea
           className={classnames({
             'post__content': true,
@@ -43,9 +48,6 @@ const Post = ({
             title={metas.title}
             description={metas.description}
             image={metas.image} />
-        ) }
-        { thumb && (
-          <img src={ thumb } />
         ) }
       </div>
       <div className="post__footer">

@@ -30,6 +30,17 @@
     }
   }
 
+  &__image {
+    display: block;
+    width: 100%;
+    padding: $base/2 $base/2 0;
+    box-sizing: border-box;
+
+    @include media(min-width, m) {
+      padding: $base $base 0;
+    }
+  }
+
   &__footer {
     margin-top: $base;
   }
