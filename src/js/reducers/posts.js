@@ -3,6 +3,7 @@ import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_ERROR,
   SEARCH_POSTS_SUCCESS,
+  UPDATE_POSTS
 } from '../actions/posts';
 
 export const initialState = {
@@ -25,19 +26,33 @@ const posts = (state = initialState, action) => {
         isFetching: false,
         errorFetching: true
       };
-    case FETCH_POSTS_SUCCESS:
-      const posts = {};
+    case FETCH_POSTS_SUCCESS: {
+      const items = {};
       for (let a of action.posts) {
-        posts[a._id] = a;
+        items[a._id] = a;
       }
       return {
         ...state,
         byId: {
           ...state.byId,
-          ...posts
+          ...items
         },
         isFetching: false
       };
+    }
+    case UPDATE_POSTS: {
+      const items = {};
+      for (let a of action.posts) {
+        items[a._id] = a;
+      }
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...items
+        }
+      };
+    }
     default:
       return state;
   }

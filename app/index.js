@@ -31,7 +31,8 @@ app.get(routeFront, (req, res) => {
   });
 });
 
-app.use('/static', express.static(path.join(__dirname, '../static')));
+app.use('/static', express.static(path.join(__dirname, '..', 'static')));
+app.use('/thumbs', express.static(path.join(__dirname, '..', 'static', 'thumbs')));
 
 mongoose.connect(config.MONGO_URI);
 mongoose.connection.on('error', err => logger.error('Mongo err: ' + err));

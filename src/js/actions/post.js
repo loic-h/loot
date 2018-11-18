@@ -1,4 +1,5 @@
 import api from '../api';
+import { updatePosts } from './posts';
 
 export const ADD_POST_LOAD = "ADD_POST_LOAD";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
@@ -79,9 +80,8 @@ export const savePostLoad = () => ({
   type: SAVE_POST_LOAD
 });
 
-export const savePostSuccess = id => ({
-  type: SAVE_POST_SUCCESS,
-  id
+export const savePostSuccess = () => ({
+  type: SAVE_POST_SUCCESS
 });
 
 export const savePostError = error => ({
@@ -98,7 +98,8 @@ export const savePost = (id, body) => dispatch => {
         reject(err);
       })
       .then(json => {
-        dispatch(savePostSuccess(json));
+        dispatch(savePostSuccess());
+        dispatch(updatePosts([json]));
         resolve(json);
       });
   });

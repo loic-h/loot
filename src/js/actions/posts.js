@@ -5,6 +5,7 @@ export const FETCH_POSTS_LOAD = 'FETCH_POSTS_LOAD';
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR';
 export const SEARCH_POSTS_SUCCESS = 'SEARCH_POSTS_SUCCESS';
+export const UPDATE_POSTS = 'UPDATE_POSTS';
 
 export const loadPosts = () => ({
   type: FETCH_POSTS_LOAD
@@ -49,3 +50,8 @@ export const searchPosts = value => dispatch => {
       });
   });
 };
+
+export const updatePosts = posts => ({
+  type: UPDATE_POSTS,
+  posts
+});

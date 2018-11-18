@@ -9,33 +9,24 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      body: props.body,
       showActions: false
     }
   }
 
-  componentDidUpdate(prevProps) {
-
-  }
-
   onBodyChange(key, value) {
-    const body = {
-      ...this.state.body,
-      [key]: value
-    };
-    this.setState({ body });
+    this.props.updatePost(key, value);
     this.props.savePost(key, value);
   }
 
   render() {
     return (
       <PostComponent
-        id={ this.state.body._id }
-        content={ this.state.body.content }
-        mappedContent={ this.state.body.mappedContent }
-        metas={ this.state.body.metas }
-        thumb={ this.state.body.thumb }
-        content={ this.state.body.content }
+        id={ this.props.body._id }
+        content={ this.props.body.content }
+        mappedContent={ this.props.body.mappedContent }
+        metas={ this.props.body.metas }
+        thumb={ this.props.body.thumbs && this.props.body.thumbs.desktop }
+        content={ this.props.body.content }
         isEditing={ this.props.isEditing }
         onBodyChange={ (key, value) => this.onBodyChange(key, value) } />
     );
@@ -58,7 +49,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  savePost: (key, value) => dispatch(savePost(props.body._id, { [key]: value }))
+  savePost: (key, value) => dispatch(savePost(props.body._id, { [key]: value })),
+  updatePost: (key, value) => dispatch(updatePosts([{ ...props.body, [key]: value }]))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);
